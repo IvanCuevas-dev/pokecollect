@@ -21,7 +21,7 @@ class ShopController extends Controller
             'premium' => ['price' => 200, 'cards' => 15]
         ];
 
-        $packType = $packs[$request->type];
+        $packType = $packs[$request->pack];
         $price = $packType["price"];
         $numCards = $packType["cards"];
         $cards = [];

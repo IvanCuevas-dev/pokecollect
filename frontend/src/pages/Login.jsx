@@ -11,7 +11,7 @@ function Login() {
 
     let navigate = useNavigate();
 
-    //Enviar Formulario
+    //Enviar Formulario Login
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -20,7 +20,7 @@ function Login() {
             localStorage.setItem("token", data.token);
             navigate("/shop");
         } catch (error) {
-            setError("Email o contraseña incorrectos.");
+            setError("Email o contraseña incorrectos");
         }
     };
 

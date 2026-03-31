@@ -1,6 +1,6 @@
 function Social() {
     return (
-        <h1>Tienda</h1>
+        <h1>Social</h1>
     )
 }
 
