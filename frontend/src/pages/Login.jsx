@@ -2,7 +2,6 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import api from "../api"
 
-
 function Login() {
 
     let [email, setEmail] = useState("");
@@ -11,7 +10,6 @@ function Login() {
 
     let navigate = useNavigate();
 
-    //Enviar Formulario Login
     async function handleSubmit(e) {
         e.preventDefault();
 
@@ -25,30 +23,49 @@ function Login() {
     };
 
     return (
-        <div>
-            <h1>Iniciar sesión</h1>
+        <div className="flex-1 flex items-center justify-center p-6">
+            <div className="w-full max-w-md bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-8">
 
-            <form onSubmit={handleSubmit}>
+                <h1 className="text-2xl font-bold tracking-wide text-center mb-8">
+                    Iniciar sesión
+                </h1>
 
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
 
-                <input
-                    type="password"
-                    placeholder="Contraseña"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-purple-500/60 transition"
+                    />
 
-                <button type="submit">Entrar</button>
+                    <input
+                        type="password"
+                        placeholder="Contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-purple-500/60 transition"
+                    />
 
-                {error && <p className="text-black">{error}</p>}
+                    {error && <p className="text-red-400 text-sm text-center">{error}</p>}
 
-            </form>
+                    <button
+                        type="submit"
+                        className="mt-2 py-3 rounded-lg bg-purple-500/20 border border-purple-500/40 hover:bg-purple-500/40 text-purple-300 text-sm transition cursor-pointer">
+                        Entrar
+                    </button>
+
+                </form>
+
+                <p className="text-center text-white/40 text-sm mt-6">
+                    ¿No tienes cuenta?{" "}
+                    <a href="/register" className="text-purple-400 hover:text-purple-300 transition">
+                        Regístrate
+                    </a>
+                </p>
+
+            </div>
         </div>
     )
 }
