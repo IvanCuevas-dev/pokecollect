@@ -37,7 +37,7 @@ function Login() {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-purple-500/60 transition"
+                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-cyan-500/60 transition"
                     />
 
                     <input
@@ -45,22 +45,22 @@ function Login() {
                         placeholder="Contraseña"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-purple-500/60 transition"
+                        className="bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder-white/30 focus:outline-none focus:border-cyan-500/60 transition"
                     />
 
                     {error && <p className="text-red-400 text-sm text-center">{error}</p>}
 
                     <button
                         type="submit"
-                        className="mt-2 py-3 rounded-lg bg-purple-500/20 border border-purple-500/40 hover:bg-purple-500/40 text-purple-300 text-sm transition cursor-pointer">
+                        className="mt-2 py-3 rounded-lg bg-linear-to-t from-blue-500/20 to-purple-500/20 border border-purple-500/40 hover:bg-purple-500/40 text-cyan-300 text-sm transition cursor-pointer">
                         Entrar
                     </button>
 
                 </form>
 
-                <p className="text-center text-white/40 text-sm mt-6">
+                <p className="text-center text-white/50 text-sm mt-6">
                     ¿No tienes cuenta?{" "}
-                    <a href="/register" className="text-purple-400 hover:text-purple-300 transition">
+                    <a href="/register" className="text-cyan-400 hover:text-purple-300 transition">
                         Regístrate
                     </a>
                 </p>

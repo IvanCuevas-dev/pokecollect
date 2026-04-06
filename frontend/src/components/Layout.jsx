@@ -15,12 +15,12 @@ function Layout({ children }) {
     }, [location.pathname]);
 
     return (
-        <div className="flex flex-col min-h-screen bg-[#0f0f1a] text-white">
+        <div className="flex flex-col min-h-screen">
             <Topbar
                 mobileMenuOpen={mobileMenuOpen}
                 setMobileMenuOpen={setMobileMenuOpen}
             />
-            <div className="flex flex-1">
+            <div className="flex flex-1 min-h-screen">
                 {token && (
                     <Sidebar
                         sidebarOpen={sidebarOpen}
@@ -29,7 +29,7 @@ function Layout({ children }) {
                         setMobileMenuOpen={setMobileMenuOpen}
                     />
                 )}
-                <main className="flex-1 flex flex-col bg-[#0B0F1A]">
+                <main className="flex-1 flex flex-col">
                     {children}
                 </main>
             </div>

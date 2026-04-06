@@ -1,9 +1,9 @@
 import { useState } from "react"
 
 let styles = {
-    blue: { gradient: "bg-gradient-to-br from-blue-600/40 via-blue-500/20 to-blue-900/40", border: "border-blue-500/40", hover: "hover:border-blue-400/80", shadow: "hover:shadow-blue-500/20", text: "text-blue-400", btn: "bg-blue-500/20 border-blue-500/40 hover:bg-blue-500/40 text-blue-300" },
-    purple: { gradient: "bg-gradient-to-br from-purple-600/40 via-purple-500/20 to-purple-900/40", border: "border-purple-500/40", hover: "hover:border-purple-400/80", shadow: "hover:shadow-purple-500/20", text: "text-purple-400", btn: "bg-purple-500/20 border-purple-500/40 hover:bg-purple-500/40 text-purple-300" },
-    yellow: { gradient: "bg-gradient-to-br from-yellow-600/40 via-yellow-500/20 to-yellow-900/40", border: "border-yellow-500/40", hover: "hover:border-yellow-400/80", shadow: "hover:shadow-yellow-500/20", text: "text-yellow-400", btn: "bg-yellow-500/20 border-yellow-500/40 hover:bg-yellow-500/40 text-yellow-300" },
+    blue: { gradient: "bg-gradient-to-br from-blue-400/40 via-blue-500/20 to-blue-900/40", border: "border-blue-500/40", hover: "hover:border-blue-400/80", shadow: "hover:shadow-blue-500/20", text: "text-blue-400", btn: "bg-blue-500/20 border-blue-500/40 hover:bg-blue-500/40 text-blue-300" },
+    purple: { gradient: "bg-gradient-to-br from-purple-400/40 via-purple-500/20 to-purple-900/40", border: "border-purple-500/40", hover: "hover:border-purple-400/80", shadow: "hover:shadow-purple-500/20", text: "text-purple-400", btn: "bg-purple-500/20 border-purple-500/40 hover:bg-purple-500/40 text-purple-300" },
+    yellow: { gradient: "bg-gradient-to-br from-yellow-400/40 via-yellow-500/20 to-yellow-900/40", border: "border-yellow-500/40", hover: "hover:border-yellow-400/80", shadow: "hover:shadow-yellow-500/20", text: "text-yellow-400", btn: "bg-yellow-500/20 border-yellow-500/40 hover:bg-yellow-500/40 text-yellow-300" },
 }
 
 function PackCard({ type, name, description, price, cards, color, onBuy }) {

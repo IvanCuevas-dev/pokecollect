@@ -9,12 +9,18 @@ function Topbar({ mobileMenuOpen, setMobileMenuOpen }) {
     }
 
     return (
-        <header className="backdrop-blur-md bg-white/5 border-b border-white/10 p-4 flex items-center justify-between z-50">
-            <span className="font-bold text-xl tracking-widest">PokéCollect</span>
+        <header className="flex sticky top-0 h-16 items-center justify-between py-4 px-10 z-50 bg-black/70 bg-linear-to-t from-blue-500/20 to-purple-500/20 border-b border-white/10 shadow-lg shadow-purple-500/20">
+
+            <span
+                className="font-bold text-4xl tracking-widest"
+                style={{ background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #f472b6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                PokéCollect
+            </span>
+
             <div className="flex items-center gap-4 text-sm">
                 {token ? (
                     <>
-                        <Link to="/login" onClick={logout} className="hidden md:block hover:text-red-400 transition">
+                        <Link to="/login" onClick={logout} className="hidden md:block text-white/80 hover:text-red-400 transition">
                             Logout
                         </Link>
                         <button
@@ -27,8 +33,8 @@ function Topbar({ mobileMenuOpen, setMobileMenuOpen }) {
                     </>
                 ) : (
                     <>
-                        <Link to="/login" className="hover:text-yellow-400 transition">Login</Link>
-                        <Link to="/register" className="hover:text-yellow-400 transition">Registro</Link>
+                        <Link to="/login" className="text-white hover:text-cyan-400 transition">Login</Link>
+                        <Link to="/register" className="text-white hover:text-cyan-400 transition">Registro</Link>
                     </>
                 )}
             </div>
