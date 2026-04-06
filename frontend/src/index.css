@@ -3,7 +3,7 @@
 
 body {
     font-family: monospace;
-    background: radial-gradient(ellipse at center, #1e1040 0%, #0d0d1f 60%, #080810 100%);
+    background: linear-gradient(180deg, #1a1a2e 0%, #16162d 50%, #0d0d12 100%);
     min-height: 100vh;
     color: white;
-}
+} 

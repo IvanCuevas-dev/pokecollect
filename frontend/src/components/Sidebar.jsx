@@ -27,7 +27,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
             )}
 
             {/* Sidebar */}
-            <aside className={`sticky left-0 top-16 h-screen z-50 bg-black/70 bg-linear-to-r from-blue-500/20 to-purple-500/20 border-r border-white/20 transition-all duration-300 shadow-2xl rounded-r-xl
+            <aside className={`fixed md:sticky left-0 z-40 top-16 h-[calc(100vh-4rem)] bg-black/70 bg-linear-to-r from-blue-500/20 to-purple-500/20 border-r border-white/20 transition-all duration-300 shadow-2xl rounded-r-xl
                 ${mobileMenuOpen ? "translate-x-0 w-56 pt-4" : "-translate-x-full md:translate-x-0"}
                 ${sidebarOpen ? "md:w-56 " : "md:w-20"}
             `}>
@@ -35,7 +35,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                 {/* Botón abrir/cerrar sidebar */}
                 <button
                     onClick={() => setSidebarOpen(!sidebarOpen)}
-                    className="hidden md:flex flex-col gap-1 cursor-pointer p-4 self-end">
+                    className="hidden md:flex flex-col gap-1 cursor-pointer p-4 ml-auto">
                     <span className="w-5 h-0.5 bg-white/80 block"></span>
                     <span className="w-5 h-0.5 bg-white/80 block"></span>
                     <span className="w-5 h-0.5 bg-white/80 block"></span>
