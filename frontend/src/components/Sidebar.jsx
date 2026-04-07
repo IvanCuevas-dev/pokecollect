@@ -1,4 +1,6 @@
 import { Link, useLocation } from "react-router-dom"
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthContext"
 
 let links = [
     { to: "/shop", label: "Tienda", icon: "/icons/tienda.png", activeBg: "bg-cyan-500/20 border-r-2 border-cyan-400", color: "hover:text-cyan-400", active: "text-cyan-400" },
@@ -10,6 +12,7 @@ let links = [
 function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpen }) {
 
     let location = useLocation();
+    let { user } = useContext(AuthContext);
 
     function logout() {
         localStorage.removeItem("token");
@@ -21,7 +24,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
             {/* Capa que cubre fondo al abrir mobileMenu */}
             {mobileMenuOpen && (
                 <div
-                    className="fixed inset-0 bg-black/60 z-40 md:hidden "
+                    className="fixed inset-0 bg-black/80 z-40 md:hidden "
                     onClick={() => setMobileMenuOpen(false)}
                 />
             )}
@@ -41,6 +44,22 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                     <span className="w-5 h-0.5 bg-white/80 block"></span>
                 </button>
 
+                {/* Usario */}
+                {user && (
+                    <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10 mb-2">
+                        <div className="w-10 h-10 rounded-full bg-linear-to-br from-purple-500 to-cyan-500 flex items-center justify-center font-bold text-sm shrink-0">
+                            {user.name.charAt(0).toUpperCase()}
+                        </div>
+                        {sidebarOpen &&
+                            <div className="flex flex-col">
+                                <span className="text-sm font-semibold text-white capitalize">{user.name}</span>
+                                <span className="text-xs text-white/60">Aprendiz</span>
+                            </div>
+                        }
+                    </div>
+                )}
+
+
                 {/* Links */}
                 <nav className="flex flex-col gap-1 px-3 py-1">
                     {links.map(link => (
@@ -48,8 +67,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                             key={link.to}
                             to={link.to}
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`
-                                flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm
+                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm
                                 ${location.pathname === link.to
                                     ? `${link.activeBg} ${link.active}`
                                     : "text-white hover:bg-white/5"}

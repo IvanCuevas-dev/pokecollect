@@ -1,13 +1,15 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { AuthContext } from "../context/AuthContext"
 import api from "../api"
+
 
 function Login() {
 
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
     let [error, setError] = useState("");
-
+    let { setUser } = useContext(AuthContext);
     let navigate = useNavigate();
 
     async function handleSubmit(e) {
@@ -16,6 +18,11 @@ function Login() {
         try {
             let data = await api("/login", "POST", { email, password });
             localStorage.setItem("token", data.token);
+            setUser({
+                name: data.user.name,
+                coins: data.user.coins,
+                avatar: localStorage.getItem("avatar") || "avatar1"
+            });
             navigate("/shop");
         } catch (error) {
             setError("Email o contraseña incorrectos");

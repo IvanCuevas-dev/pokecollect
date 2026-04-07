@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { AuthContext } from "../context/AuthContext"
 import api from "../api"
 import PackCard from "../components/PackCard"
 
@@ -8,6 +9,7 @@ function Shop() {
     let [cardShown, setCardShown] = useState(0);
     let [modal, setModal] = useState(false);
     let [error, setError] = useState("");
+    let { user } = useContext(AuthContext);
 
     async function buyPack(pack) {
         try {
@@ -21,11 +23,12 @@ function Shop() {
 
     return (
         <>
-            <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-15 p-6">
-                <h1>Tienda de Sobres</h1>
+            <div className="flex flex-col mt-20">
+                <h1 className="text-center text-6xl font-semibold">Tienda de <span className="text-cyan-300 italic">Sobres</span></h1>
+                <span className="text-center text-white/90 mt-5 px-10">Adquiere sobres y expande tu colección. Cada sobre contiene cartas de distinta rareza listas para tus mazos!</span>
             </div>
 
-            <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-15 p-6">
+            <div className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-15 my-15">
                 <PackCard
                     type="basic"
                     name="Básico"

@@ -3,7 +3,14 @@
 
 body {
     font-family: monospace;
-    background: linear-gradient(180deg, #1a1a2e 0%, #16162d 50%, #0d0d12 100%);
     min-height: 100vh;
     color: white;
-} 
+
+    background-image: 
+        url("/fondo.png"), 
+        linear-gradient(180deg, #1a1a2e 0%, #16162d 50%, #0d0d12 100%);
+    background-blend-mode: overlay; 
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    opacity: 0.9; 
+}
