@@ -24,8 +24,8 @@ return new class extends Migration
             $table->integer('defense');
             $table->integer('speed');
 
-            $table->integer('height');
-            $table->integer('weight');
+            $table->decimal('height', 5, 1);
+            $table->decimal('weight', 6, 1);
 
             $table->integer('base_experience');
 
@@ -37,11 +37,11 @@ return new class extends Migration
             $table->string('move_2')->nullable();
 
             $table->enum('rarity', [
-                'common',
-                'uncommon',
-                'rare',
-                'epic',
-                'legendary'
+                'Común',
+                'Poco común',
+                'Rara',
+                'Épica',
+                'Legendaria'
             ]);
 
             $table->timestamps();

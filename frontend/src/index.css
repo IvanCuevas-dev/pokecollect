@@ -1,16 +1,176 @@
-@import "tailwindcss";
-
+@import 'tailwindcss';
 
 body {
     font-family: monospace;
     min-height: 100vh;
     color: white;
 
-    background-image: 
-        url("/fondo.png"), 
-        linear-gradient(180deg, #1a1a2e 0%, #16162d 50%, #0d0d12 100%);
-    background-blend-mode: overlay; 
+    background-image: url('/fondo.png'), linear-gradient(180deg, #1a1a2e 0%, #16162d 50%, #0d0d12 100%);
+    background-blend-mode: overlay;
     background-repeat: no-repeat;
-    background-attachment: fixed; 
-    opacity: 0.9; 
+    background-attachment: fixed;
+    opacity: 0.9;
 }
+
+/* Brillo animado sobres */
+@keyframes pack-shine {
+    0% {
+        transform: translateX(-150%);
+    }
+    35% {
+        transform: translateX(400%);
+    }
+    100% {
+        transform: translateX(400%);
+    }
+}
+.pack-shine-blue,
+.pack-shine-purple,
+.pack-shine-yellow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    pointer-events: none;
+    z-index: 20;
+    animation: pack-shine 4s linear infinite;
+}
+.pack-shine-blue {
+    background: linear-gradient(90deg, transparent, rgba(147, 197, 253, 0.25), transparent);
+}
+.pack-shine-purple {
+    background: linear-gradient(90deg, transparent, rgba(216, 180, 254, 0.25), transparent);
+}
+.pack-shine-yellow {
+    background: linear-gradient(90deg, transparent, rgba(253, 224, 71, 0.3), transparent);
+}
+
+/* Animación revelación de carta */
+@keyframes card-reveal {
+    0% {
+        opacity: 0;
+        transform: perspective(1000px) rotateY(-90deg) scale(0.8);
+    }
+    60% {
+        transform: perspective(1000px) rotateY(8deg) scale(1.03);
+    }
+    100% {
+        opacity: 1;
+        transform: perspective(1000px) rotateY(0deg) scale(1);
+    }
+}
+.card-reveal {
+    animation: card-reveal 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Textura carta*/
+.card-grain {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255, 255, 255, 0.04) 3px, rgba(255, 255, 255, 0.04) 4px),
+        repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(0, 0, 0, 0.02) 3px, rgba(0, 0, 0, 0.02) 4px);
+}
+
+/* Sombra carta */
+.card-inner-shadow {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 2;
+    box-shadow:
+        inset 0 2px 8px rgba(255, 255, 255, 0.3),
+        inset 0 -3px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* Animación carta Poco común */
+@keyframes shine-uncommon {
+    0%,
+    100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+.shine-uncommon {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 0%, rgba(34, 197, 94, 0.18) 0%, transparent 65%);
+    animation: shine-uncommon 4s ease-in-out infinite;
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 1;
+}
+
+/* Animación carta Rara */
+@keyframes shine-rare {
+    0% {
+        transform: translate(-150%, -150%);
+    }
+    70% {
+        transform: translate(150%, 150%);
+    }
+    100% {
+        transform: translate(150%, 150%);
+    }
+}
+.shine-rare {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(135deg, transparent 40%, rgba(147, 197, 253, 0.45) 50%, transparent 60%);
+    animation: shine-rare 4s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Animación carta Épica */
+@keyframes shine-epic {
+    0% {
+        transform: translate(-150%, -150%);
+    }
+    100% {
+        transform: translate(150%, 150%);
+    }
+}
+.shine-epic {
+    position: absolute;
+    inset: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(135deg, transparent 40%, rgba(216, 180, 254, 0.45) 50%, transparent 60%);
+    animation: shine-epic 3s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Animación carta Legendaria */
+@keyframes shine-legendary {
+    0% {
+        transform: translate(-150%, -150%);
+    }
+    70% {
+        transform: translate(150%, 150%);
+    }
+    100% {
+        transform: translate(150%, 150%);
+    }
+}
+.shine-legendary {
+    position: absolute;
+    inset: 0%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(135deg, transparent 35%, rgba(253, 224, 71, 0.55) 48%, rgba(251, 191, 36, 0.35) 54%, transparent 65%);
+    animation: shine-legendary 4s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+

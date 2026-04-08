@@ -65,8 +65,8 @@ class PokemonSeeder extends Seeder
             $defense = $pokemonData['stats'][2]['base_stat'];
             $speed = $pokemonData['stats'][5]['base_stat'];
 
-            $height = $pokemonData['height'];
-            $weight = $pokemonData['weight'];
+            $height = round($pokemonData['height'] / 10, 1);
+            $weight = round($pokemonData['weight'] / 10, 1);
 
             $baseExp = $pokemonData['base_experience'];
 
@@ -81,15 +81,15 @@ class PokemonSeeder extends Seeder
                 : null;
 
             if ($baseExp < 100) {
-                $rarity = 'common';
+                $rarity = 'Común';
             } elseif ($baseExp < 150) {
-                $rarity = 'uncommon';
+                $rarity = 'Poco común';
             } elseif ($baseExp < 200) {
-                $rarity = 'rare';
+                $rarity = 'Rara';
             } elseif ($baseExp < 250) {
-                $rarity = 'epic';
+                $rarity = 'Épica';
             } else {
-                $rarity = 'legendary';
+                $rarity = 'Legendaria';
             }
 
             $species = Http::get($pokemonData['species']['url'])->json();

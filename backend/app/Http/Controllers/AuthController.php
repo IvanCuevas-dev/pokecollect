@@ -20,10 +20,15 @@ class AuthController extends Controller
             'password' => $request->password,
         ]);
 
+        $user->refresh();
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'coins' => $user->coins,
+            ],
             'token' => $token
         ]);
     }
@@ -45,7 +50,11 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'coins' => $user->coins,
+            ],
             'token' => $token
         ]);
     }

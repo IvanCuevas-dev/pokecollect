@@ -21,7 +21,7 @@ return new class extends Migration
                 ->on('pokemon')
                 ->cascadeOnDelete();
 
-            $table->integer('quantity')->default(1);
+            $table->integer('quantity')->default(0);
             $table->timestamps();
             $table->unique(['user_id', 'pokemon_id']);
         });

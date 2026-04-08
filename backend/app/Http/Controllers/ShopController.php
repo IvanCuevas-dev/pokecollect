@@ -18,7 +18,7 @@ class ShopController extends Controller
         $packs = [
             'basic' => ['price' => 50, 'cards' => 5],
             'standard' => ['price' => 100, 'cards' => 10],
-            'premium' => ['price' => 200, 'cards' => 15]
+            'premium' => ['price' => 200, 'cards' => 20]
         ];
 
         $packType = $packs[$request->pack];
