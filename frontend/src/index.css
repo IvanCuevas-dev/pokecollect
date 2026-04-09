@@ -1,4 +1,6 @@
 @import 'tailwindcss';
 @import './styles/global.css';
-@import './styles/animations.css';
+@import './styles/animationsPages.css';
+@import './styles/animationsPacks.css';
+@import './styles/animationsCards.css';
 @import './styles/buyCoinsModal.css';
