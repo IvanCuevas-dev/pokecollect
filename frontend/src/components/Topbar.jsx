@@ -11,7 +11,7 @@ function Topbar({ mobileMenuOpen, setMobileMenuOpen, buyCoinsOpen, setBuyCoinsOp
     }
 
     return (
-        <header className="flex sticky top-0 h-16 items-center justify-between py-4 px-10 z-50 bg-black/70 bg-linear-to-t from-blue-500/20 to-purple-500/20 border-b border-white/10 shadow-lg shadow-purple-500/20">
+        <header className="flex shrink-0 h-16 items-center justify-between py-4 px-10 z-50 bg-black/70 bg-linear-to-t from-blue-500/20 to-purple-500/20 border-b border-white/10 shadow-lg shadow-purple-500/20">
             <h1
                 className="font-bold text-2xl md:text-4xl tracking-widest select-none"
                 style={{

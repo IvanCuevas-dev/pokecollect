@@ -37,7 +37,7 @@ let links = [
     },
 ]
 
-function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpen, buyCoinsOpen, setBuyCoinsOpen }) {
+function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpen, setBuyCoinsOpen }) {
     let location = useLocation()
     let { user } = useContext(AuthContext)
 
@@ -58,7 +58,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
 
             {/* Sidebar */}
             <aside
-                className={`fixed md:sticky left-0 z-40 top-16 h-[calc(100vh-4rem)] bg-black/70 bg-linear-to-r from-blue-500/20 to-purple-500/20 border-r border-white/20 transition-all duration-300 shadow-2xl rounded-r-xl flex flex-col
+                className={`fixed md:relative left-0 z-40 top-16 md:top-0 h-[calc(100vh-4rem)] md:h-full bg-black/70 bg-linear-to-r from-blue-500/20 to-purple-500/20 border-r border-white/20 transition-all duration-300 shadow-2xl rounded-r-xl flex flex-col shrink-0
                 ${mobileMenuOpen ? 'translate-x-0 w-56 pt-4' : '-translate-x-full md:translate-x-0'}
                 ${sidebarOpen ? 'md:w-56 ' : 'md:w-20'}
             `}

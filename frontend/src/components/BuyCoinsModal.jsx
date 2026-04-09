@@ -60,12 +60,21 @@ let packages = [
 function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
     let { user, setUser } = useContext(AuthContext)
     let [error, setError] = useState('')
+    let [closing, setClosing] = useState(false)
+
+    function close() {
+        setClosing(true)
+        setTimeout(() => {
+            setClosing(false)
+            setBuyCoinsOpen(false)
+        }, 250)
+    }
 
     async function handleBuy(pkg) {
         try {
             let data = await api('/buyCoins', 'POST', { amount: pkg.amount })
             setUser({ ...user, coins: data.coins })
-            setBuyCoinsOpen(false)
+            close()
         } catch (error) {
             setError('Error al comprar PokéCoins, inténtalo de nuevo')
         }
@@ -76,13 +85,13 @@ function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
             {buyCoinsOpen && (
                 <div
                     className="fixed inset-0 bg-black/90 z-40"
-                    onClick={() => setBuyCoinsOpen(false)}
+                    onClick={close}
                 />
             )}
 
             {buyCoinsOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-                    <div className="buyCoinsModal pointer-events-auto w-full max-w-5xl lg:max-w-6xl border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 lg:p-10 flex flex-col gap-6 lg:gap-8">
+                    <div className={`${closing ? 'page-leave' : 'page-enter'} buyCoinsModal pointer-events-auto w-full max-w-5xl lg:max-w-6xl border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 lg:p-10 flex flex-col gap-6 lg:gap-8`}>
                         {/* Cabecera */}
                         <div className="flex items-center justify-center">
                             <div>
@@ -146,7 +155,7 @@ function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
                         {/* Cerrar */}
                         <div className="flex justify-center">
                             <button
-                                onClick={() => setBuyCoinsOpen(false)}
+                                onClick={close}
                                 className="px-6 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white hover:text-white text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
                             >
                                 Cerrar

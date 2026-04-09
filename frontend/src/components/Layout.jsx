@@ -16,14 +16,14 @@ function Layout({ children }) {
     }, [location.pathname])
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col h-screen overflow-hidden">
             <Topbar
                 mobileMenuOpen={mobileMenuOpen}
                 setMobileMenuOpen={setMobileMenuOpen}
                 buyCoinsOpen={buyCoinsOpen}
                 setBuyCoinsOpen={setBuyCoinsOpen}
             />
-            <div className="flex flex-1 min-h-screen">
+            <div className="flex flex-1 overflow-hidden">
                 {token && (
                     <Sidebar
                         sidebarOpen={sidebarOpen}
@@ -34,7 +34,7 @@ function Layout({ children }) {
                         setBuyCoinsOpen={setBuyCoinsOpen}
                     />
                 )}
-                <main className="flex-1 flex flex-col">{children}</main>
+                <main key={location.pathname} className="page-enter flex-1 flex flex-col overflow-y-auto">{children}</main>
             </div>
             <BuyCoinsModal
                 buyCoinsOpen={buyCoinsOpen}

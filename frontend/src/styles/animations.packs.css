@@ -1,0 +1,55 @@
+/* Animación flotante sobres */
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+.pack-float {
+    animation: float 3.5s ease-in-out infinite;
+}
+.pack-float-delay-1 {
+    animation: float 3.5s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+.pack-float-delay-2 {
+    animation: float 3.5s ease-in-out infinite;
+    animation-delay: 1s;
+}
+
+/* Brillo animado sobres (PackCard) */
+@keyframes pack-shine {
+    0% {
+        transform: translateX(-150%);
+    }
+    35% {
+        transform: translateX(400%);
+    }
+    100% {
+        transform: translateX(400%);
+    }
+}
+.pack-shine-blue,
+.pack-shine-purple,
+.pack-shine-yellow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 30%;
+    pointer-events: none;
+    z-index: 20;
+    animation: pack-shine 4s linear infinite;
+}
+.pack-shine-blue {
+    background: linear-gradient(90deg, transparent, rgba(147, 197, 253, 0.25), transparent);
+}
+.pack-shine-purple {
+    background: linear-gradient(90deg, transparent, rgba(216, 180, 254, 0.25), transparent);
+}
+.pack-shine-yellow {
+    background: linear-gradient(90deg, transparent, rgba(253, 224, 71, 0.3), transparent);
+}
