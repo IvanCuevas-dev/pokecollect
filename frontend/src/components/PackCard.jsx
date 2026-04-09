@@ -88,14 +88,10 @@ function PackCard({ type, name, description, price, cards, color, onBuy }) {
                 <div className="flex flex-col items-center gap-3">
                     <img src={style.sprite} className="w-24 h-24 object-contain drop-shadow-lg" />
 
-                    <h2
-                        className={`font-black text-2xl tracking-widest uppercase ${style.text} drop-shadow-lg`}
-                    >
+                    <h2 className={`font-black text-2xl tracking-widest uppercase ${style.text} drop-shadow-lg`}>
                         {name}
                     </h2>
-                    <p className={`text-xs uppercase tracking-widest ${style.subtext}`}>
-                        {description}
-                    </p>
+                    <p className={`text-xs uppercase tracking-widest ${style.subtext}`}>{description}</p>
 
                     <div className="mt-1 flex flex-col items-center gap-1">
                         <span
@@ -103,9 +99,7 @@ function PackCard({ type, name, description, price, cards, color, onBuy }) {
                         >
                             {price} PokéCoins
                         </span>
-                        <span className="text-white/40 text-xs tracking-widest uppercase">
-                            {cards} cartas
-                        </span>
+                        <span className="text-white/40 text-xs tracking-widest uppercase">{cards} cartas</span>
                     </div>
                 </div>
 

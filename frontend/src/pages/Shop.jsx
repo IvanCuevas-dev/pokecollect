@@ -26,7 +26,7 @@ function Shop() {
         <>
             {modal && cardReceived.length > 0 && (
                 <div className="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center gap-4">
-                    <p className="text-white/60 text-sm tracking-widest uppercase">
+                    <p className="text-white/70 text-sm tracking-widest uppercase">
                         {cardShown + 1} / {cardReceived.length}
                     </p>
 
@@ -45,7 +45,8 @@ function Shop() {
                                     setCardReceived([])
                                 }
                             }}
-                            className="hidden lg:block absolute right-25 px-10 py-4 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40 hover:border-cyan-300/80 hover:shadow-cyan-500/30 hover:shadow-lg text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                            className="hidden lg:block absolute right-25 px-10 py-4 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40
+                            hover:border-cyan-300/80 hover:shadow-cyan-500/30 hover:shadow-lg text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
                         >
                             {cardShown + 1 < cardReceived.length ? 'Siguiente →' : 'Cerrar'}
                         </button>
@@ -73,8 +74,8 @@ function Shop() {
                     Tienda de <span className="text-cyan-300 italic">Sobres</span>
                 </h1>
                 <span className="text-center text-white/90 mt-10 px-10">
-                    Adquiere sobres y expande tu colección. Cada sobre contiene cartas de distinta
-                    rareza listas para tus mazos!
+                    Adquiere sobres y expande tu colección. Cada sobre contiene cartas de distinta rareza listas para
+                    tus mazos!
                 </span>
             </div>
 

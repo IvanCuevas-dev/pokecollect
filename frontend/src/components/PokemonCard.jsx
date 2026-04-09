@@ -94,9 +94,7 @@ function PokemonCard({ pokemon }) {
 
                     {/* ID + RAREZA + HP */}
                     <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-gray-400">
-                            #{String(pokemon.id).padStart(3, '0')}
-                        </span>
+                        <span className="text-xs font-bold text-gray-400">#{String(pokemon.id).padStart(3, '0')}</span>
                         <span
                             className={`bg-linear-to-r ${configRarity.borderGradient} text-white text-xs font-black px-2.5 py-0.5 rounded-full uppercase tracking-widest shadow-md`}
                         >

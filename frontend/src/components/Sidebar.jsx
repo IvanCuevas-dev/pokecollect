@@ -37,7 +37,7 @@ let links = [
     },
 ]
 
-function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpen }) {
+function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpen, buyCoinsOpen, setBuyCoinsOpen }) {
     let location = useLocation()
     let { user } = useContext(AuthContext)
 
@@ -81,9 +81,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                         </div>
                         {sidebarOpen && (
                             <div className="flex flex-col">
-                                <span className="text-sm font-semibold text-white capitalize">
-                                    {user.name}
-                                </span>
+                                <span className="text-sm font-semibold text-white capitalize">{user.name}</span>
                                 <span className="text-xs text-white/60">Aprendiz</span>
                             </div>
                         )}
@@ -114,7 +112,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                     <Link
                         to="/login"
                         onClick={logout}
-                        className="md:hidden flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm text-white/60 hover:text-red-400 mt-4 border-t border-white/10 pt-4"
+                        className="md:hidden flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm text-white hover:text-red-400 mt-4 border-t border-white/10 pt-4"
                     >
                         <img
                             src="/icons/logout.png"
@@ -123,6 +121,18 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                         />
                         <span>Logout</span>
                     </Link>
+
+                    <div
+                        onClick={() => setBuyCoinsOpen(true)}
+                        className="flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm cursor-pointer"
+                    >
+                        <img
+                            src="/icons/monedas.png"
+                            alt="Comprar pokecoins"
+                            className="w-6 h-6 mr-2 shrink-0"
+                        />
+                        {sidebarOpen && <span className="shrink-0">Comprar PokéCoins</span>}
+                    </div>
                 </nav>
             </aside>
         </>

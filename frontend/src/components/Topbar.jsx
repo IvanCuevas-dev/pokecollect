@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
 
-function Topbar({ mobileMenuOpen, setMobileMenuOpen }) {
+function Topbar({ mobileMenuOpen, setMobileMenuOpen, buyCoinsOpen, setBuyCoinsOpen }) {
     let token = localStorage.getItem('token')
     let { user } = useContext(AuthContext)
 
@@ -12,8 +12,8 @@ function Topbar({ mobileMenuOpen, setMobileMenuOpen }) {
 
     return (
         <header className="flex sticky top-0 h-16 items-center justify-between py-4 px-10 z-50 bg-black/70 bg-linear-to-t from-blue-500/20 to-purple-500/20 border-b border-white/10 shadow-lg shadow-purple-500/20">
-            <span
-                className="font-bold text-2xl md:text-4xl tracking-widest"
+            <h1
+                className="font-bold text-2xl md:text-4xl tracking-widest select-none"
                 style={{
                     background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #f472b6)',
                     WebkitBackgroundClip: 'text',
@@ -21,24 +21,29 @@ function Topbar({ mobileMenuOpen, setMobileMenuOpen }) {
                 }}
             >
                 PokéCollect
-            </span>
+            </h1>
 
             <div className="flex items-center gap-2 md:gap-6 text-sm">
                 {token ? (
                     <>
-                        <div className="flex gap-2 items-center">
+                        <div
+                            onClick={() => setBuyCoinsOpen(true)}
+                            className="flex gap-2 items-center cursor-pointer"
+                        >
                             {user && (
-                                <span className="text-yellow-400 font-bold text-lg text-center">
-                                    {user.coins}
-                                </span>
+                                <span className="text-yellow-400 font-bold text-lg text-center">{user.coins}</span>
                             )}
-                            <img src="/icons/monedas.png" alt="Monedas" className="h-6 w-6" />
+                            <img
+                                src="/icons/monedas.png"
+                                alt="Monedas"
+                                className="h-6 w-6"
+                            />
                         </div>
 
                         <Link
                             to="/login"
                             onClick={logout}
-                            className="hidden md:flex gap-2 items-center text-white/80 hover:text-red-400 transition"
+                            className="hidden md:flex gap-2 items-center text-white hover:text-red-400 transition"
                         >
                             Logout
                             <img
@@ -59,10 +64,16 @@ function Topbar({ mobileMenuOpen, setMobileMenuOpen }) {
                     </>
                 ) : (
                     <>
-                        <Link to="/login" className="text-white hover:text-cyan-400 transition">
+                        <Link
+                            to="/login"
+                            className="text-white hover:text-cyan-400 transition"
+                        >
                             Login
                         </Link>
-                        <Link to="/register" className="text-white hover:text-cyan-400 transition">
+                        <Link
+                            to="/register"
+                            className="text-white hover:text-cyan-400 transition"
+                        >
                             Registro
                         </Link>
                     </>
