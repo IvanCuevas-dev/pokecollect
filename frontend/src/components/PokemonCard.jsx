@@ -85,15 +85,21 @@ function PokemonCard({ pokemon }) {
                 className={`relative bg-linear-to-br ${configRarity.borderGradient} p-1 rounded-2xl shadow-xl ${configRarity.shadow} mx-6 my-2 md:my-6 transform-gpu`}
             >
                 {/* Carta */}
-                <div className={`relative bg-linear-to-br ${configRarity.gradient} w-80 md:w-110 rounded-xl p-3 md:p-4 flex flex-col gap-1 md:gap-2 font-sans select-none overflow-hidden`}>
+                <div
+                    className={`relative bg-linear-to-br ${configRarity.gradient} w-80 md:w-110 rounded-xl p-3 md:p-4 flex flex-col gap-1 md:gap-2 font-sans select-none overflow-hidden`}
+                >
                     <div className="card-grain" />
                     <div className="card-inner-shadow" />
                     {configRarity.shine && <div className={configRarity.shine} />}
 
                     {/* ID + RAREZA + HP */}
                     <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-gray-400">#{String(pokemon.id).padStart(3, '0')}</span>
-                        <span className={`bg-linear-to-r ${configRarity.borderGradient} text-white text-xs font-black px-2.5 py-0.5 rounded-full uppercase tracking-widest shadow-md`}>
+                        <span className="text-xs font-bold text-gray-400">
+                            #{String(pokemon.id).padStart(3, '0')}
+                        </span>
+                        <span
+                            className={`bg-linear-to-r ${configRarity.borderGradient} text-white text-xs font-black px-2.5 py-0.5 rounded-full uppercase tracking-widest shadow-md`}
+                        >
                             {pokemon.rarity}
                         </span>
                         <span className={`text-sm font-black ${config.text}`}>
@@ -103,18 +109,34 @@ function PokemonCard({ pokemon }) {
                     </div>
 
                     {/* Nombre */}
-                    <h2 className={`text-center text-3xl md:text-5xl font-black uppercase tracking-widest ${config.text} drop-shadow-lg`}>{pokemon.name}</h2>
+                    <h2
+                        className={`text-center text-3xl md:text-5xl font-black uppercase tracking-widest ${config.text} drop-shadow-lg`}
+                    >
+                        {pokemon.name}
+                    </h2>
 
                     {/* Imagen */}
-                    <div className={`bg-linear-to-br ${config.gradient} mx-auto w-52 h-52 md:w-98 md:h-74 rounded-xl flex items-center justify-center border border-white/40 shadow-inner`}>
-                        <img src={pokemon.sprite_url} alt={pokemon.name} className="w-48 h-48 md:w-60 md:h-60 object-contain drop-shadow-lg" />
+                    <div
+                        className={`bg-linear-to-br ${config.gradient} mx-auto w-52 h-52 md:w-98 md:h-74 rounded-xl flex items-center justify-center border border-white/40 shadow-inner`}
+                    >
+                        <img
+                            src={pokemon.sprite_url}
+                            alt={pokemon.name}
+                            className="w-48 h-48 md:w-60 md:h-60 object-contain drop-shadow-lg"
+                        />
                     </div>
 
                     {/* Tipos */}
                     <div className="flex justify-center gap-1.5">
-                        <span className={`${config.badge} m-1 md:m-2 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md`}>{pokemon.type_1}</span>
+                        <span
+                            className={`${config.badge} m-1 md:m-2 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md`}
+                        >
+                            {pokemon.type_1}
+                        </span>
                         {pokemon.type_2 && (
-                            <span className={`${typeConfig[pokemon.type_2]?.badge} m-1 md:m-2 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md`}>
+                            <span
+                                className={`${typeConfig[pokemon.type_2]?.badge} m-1 md:m-2 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-md`}
+                            >
                                 {pokemon.type_2}
                             </span>
                         )}
@@ -128,11 +150,15 @@ function PokemonCard({ pokemon }) {
                     </div>
 
                     {/* Descripción */}
-                    <p className="text-xs text-gray-600 italic text-center bg-white/40 rounded-lg px-2 py-1.5">{pokemon.description}</p>
+                    <p className="text-xs text-gray-600 italic text-center bg-white/40 rounded-lg px-2 py-1.5">
+                        {pokemon.description}
+                    </p>
 
                     {/* Stats */}
                     <div className="bg-white/30 rounded-lg px-2 py-1 md:py-1.5 flex flex-col gap-1 md:gap-1.5">
-                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1 md:mb-2">Estadísticas</span>
+                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1 md:mb-2">
+                            Estadísticas
+                        </span>
                         <StatBar label="ATK" value={pokemon.attack} badgeClass={config.badge} />
                         <StatBar label="DEF" value={pokemon.defense} badgeClass={config.badge} />
                         <StatBar label="VEL" value={pokemon.speed} badgeClass={config.badge} />
@@ -141,10 +167,24 @@ function PokemonCard({ pokemon }) {
                     {/* Movimientos */}
                     {(pokemon.move_1 || pokemon.move_2) && (
                         <div className="bg-white/30 rounded-lg px-2 py-1 md:py-1.5 flex flex-col gap-1">
-                            <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1 md:mb-2">Movimientos</span>
+                            <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1 md:mb-2">
+                                Movimientos
+                            </span>
                             <div className="flex justify-center gap-4 flex-wrap">
-                                {pokemon.move_1 && <span className={`${config.badge} text-white text-xs font-bold px-3 py-1 rounded-full capitalize shadow-sm`}>{pokemon.move_1}</span>}
-                                {pokemon.move_2 && <span className={`${config.badge} text-white text-xs font-bold px-3 py-1 rounded-full capitalize shadow-sm`}>{pokemon.move_2}</span>}
+                                {pokemon.move_1 && (
+                                    <span
+                                        className={`${config.badge} text-white text-xs font-bold px-3 py-1 rounded-full capitalize shadow-sm`}
+                                    >
+                                        {pokemon.move_1}
+                                    </span>
+                                )}
+                                {pokemon.move_2 && (
+                                    <span
+                                        className={`${config.badge} text-white text-xs font-bold px-3 py-1 rounded-full capitalize shadow-sm`}
+                                    >
+                                        {pokemon.move_2}
+                                    </span>
+                                )}
                             </div>
                         </div>
                     )}

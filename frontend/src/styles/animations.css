@@ -58,8 +58,20 @@
     pointer-events: none;
     z-index: 2;
     background-image:
-        repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255, 255, 255, 0.04) 3px, rgba(255, 255, 255, 0.04) 4px),
-        repeating-linear-gradient(-45deg, transparent, transparent 3px, rgba(0, 0, 0, 0.02) 3px, rgba(0, 0, 0, 0.02) 4px);
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 3px,
+            rgba(255, 255, 255, 0.04) 3px,
+            rgba(255, 255, 255, 0.04) 4px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 0, 0, 0.02) 3px,
+            rgba(0, 0, 0, 0.02) 4px
+        );
 }
 
 /* Sombra carta */
@@ -111,7 +123,12 @@
     inset: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(135deg, transparent 40%, rgba(147, 197, 253, 0.45) 50%, transparent 60%);
+    background: linear-gradient(
+        135deg,
+        transparent 40%,
+        rgba(147, 197, 253, 0.45) 50%,
+        transparent 60%
+    );
     animation: shine-rare 4s linear infinite;
     pointer-events: none;
     z-index: 1;
@@ -131,7 +148,12 @@
     inset: -50%;
     width: 200%;
     height: 200%;
-    background: linear-gradient(135deg, transparent 40%, rgba(216, 180, 254, 0.45) 50%, transparent 60%);
+    background: linear-gradient(
+        135deg,
+        transparent 40%,
+        rgba(216, 180, 254, 0.45) 50%,
+        transparent 60%
+    );
     animation: shine-epic 3s linear infinite;
     pointer-events: none;
     z-index: 1;
@@ -154,7 +176,13 @@
     inset: 0%;
     width: 300%;
     height: 300%;
-    background: linear-gradient(135deg, transparent 35%, rgba(253, 224, 71, 0.55) 48%, rgba(251, 191, 36, 0.35) 54%, transparent 65%);
+    background: linear-gradient(
+        135deg,
+        transparent 35%,
+        rgba(253, 224, 71, 0.55) 48%,
+        rgba(251, 191, 36, 0.35) 54%,
+        transparent 65%
+    );
     animation: shine-legendary 4s linear infinite;
     pointer-events: none;
     z-index: 1;

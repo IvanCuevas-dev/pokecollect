@@ -72,13 +72,40 @@ function Shop() {
                 <h1 className="text-center text-6xl font-semibold">
                     Tienda de <span className="text-cyan-300 italic">Sobres</span>
                 </h1>
-                <span className="text-center text-white/90 mt-10 px-10">Adquiere sobres y expande tu colección. Cada sobre contiene cartas de distinta rareza listas para tus mazos!</span>
+                <span className="text-center text-white/90 mt-10 px-10">
+                    Adquiere sobres y expande tu colección. Cada sobre contiene cartas de distinta
+                    rareza listas para tus mazos!
+                </span>
             </div>
 
             <div className="flex flex-col lg:flex-row items-center justify-center gap-15 my-15 lg:my-20">
-                <PackCard type="basic" name="Básico" description="Ideal para empezar" price={50} cards={5} color="blue" onBuy={buyPack} />
-                <PackCard type="standard" name="Estándar" description="Más cartas, más posibilidades." price={100} cards={10} color="purple" onBuy={buyPack} />
-                <PackCard type="premium" name="Premium" description="¡La mejor forma de completar tu Pokédex!" price={200} cards={20} color="yellow" onBuy={buyPack} />
+                <PackCard
+                    type="basic"
+                    name="Básico"
+                    description="Ideal para empezar"
+                    price={50}
+                    cards={5}
+                    color="blue"
+                    onBuy={buyPack}
+                />
+                <PackCard
+                    type="standard"
+                    name="Estándar"
+                    description="Más cartas, más posibilidades."
+                    price={100}
+                    cards={10}
+                    color="purple"
+                    onBuy={buyPack}
+                />
+                <PackCard
+                    type="premium"
+                    name="Premium"
+                    description="¡La mejor forma de completar tu Pokédex!"
+                    price={200}
+                    cards={20}
+                    color="yellow"
+                    onBuy={buyPack}
+                />
             </div>
         </>
     )
