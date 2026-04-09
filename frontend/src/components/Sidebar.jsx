@@ -58,7 +58,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
 
             {/* Sidebar */}
             <aside
-                className={`fixed md:sticky left-0 z-40 top-16 h-[calc(100vh-4rem)] bg-black/70 bg-linear-to-r from-blue-500/20 to-purple-500/20 border-r border-white/20 transition-all duration-300 shadow-2xl rounded-r-xl
+                className={`fixed md:sticky left-0 z-40 top-16 h-[calc(100vh-4rem)] bg-black/70 bg-linear-to-r from-blue-500/20 to-purple-500/20 border-r border-white/20 transition-all duration-300 shadow-2xl rounded-r-xl flex flex-col
                 ${mobileMenuOpen ? 'translate-x-0 w-56 pt-4' : '-translate-x-full md:translate-x-0'}
                 ${sidebarOpen ? 'md:w-56 ' : 'md:w-20'}
             `}
@@ -89,7 +89,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                 )}
 
                 {/* Links */}
-                <nav className="flex flex-col gap-1 px-3 py-1">
+                <nav className="flex flex-col gap-1 px-3 py-1 flex-1">
                     {links.map((link) => (
                         <Link
                             key={link.to}
@@ -108,23 +108,13 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                             {sidebarOpen && <span>{link.label}</span>}
                         </Link>
                     ))}
+                </nav>
 
-                    <Link
-                        to="/login"
-                        onClick={logout}
-                        className="md:hidden flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm text-white hover:text-red-400 mt-4 border-t border-white/10 pt-4"
-                    >
-                        <img
-                            src="/icons/logout.png"
-                            alt="Logout icono"
-                            className="w-6 h-6 mr-2 shrink-0"
-                        />
-                        <span>Logout</span>
-                    </Link>
-
+                {/* Acciones inferiores */}
+                <div className="flex flex-col px-3 pb-4 border-t border-white/10 pt-3 gap-1">
                     <div
                         onClick={() => setBuyCoinsOpen(true)}
-                        className="flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm cursor-pointer"
+                        className="flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm cursor-pointer text-white hover:text-yellow-400 hover:bg-white/5"
                     >
                         <img
                             src="/icons/monedas.png"
@@ -133,7 +123,20 @@ function Sidebar({ sidebarOpen, setSidebarOpen, mobileMenuOpen, setMobileMenuOpe
                         />
                         {sidebarOpen && <span className="shrink-0">Comprar PokéCoins</span>}
                     </div>
-                </nav>
+
+                    <Link
+                        to="/login"
+                        onClick={logout}
+                        className="md:hidden flex items-center gap-3 px-3 py-2 rounded-lg transition text-sm text-white hover:text-red-400"
+                    >
+                        <img
+                            src="/icons/logout.png"
+                            alt="Logout icono"
+                            className="w-6 h-6 mr-2 shrink-0"
+                        />
+                        <span>Logout</span>
+                    </Link>
+                </div>
             </aside>
         </>
     )
