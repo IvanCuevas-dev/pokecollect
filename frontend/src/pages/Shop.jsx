@@ -12,6 +12,7 @@ function Shop() {
     let { user, setUser } = useContext(AuthContext)
 
     async function buyPack(pack) {
+        setError('')
         try {
             let data = await api('/buy', 'POST', { pack })
             setCardReceived(data.cards)
@@ -31,7 +32,10 @@ function Shop() {
                     </p>
 
                     <div className="relative flex items-center justify-center w-full">
-                        <div key={cardShown} className="card-reveal">
+                        <div
+                            key={cardShown}
+                            className="card-reveal"
+                        >
                             <PokemonCard pokemon={cardReceived[cardShown]} />
                         </div>
 
@@ -77,6 +81,7 @@ function Shop() {
                     Adquiere sobres y expande tu colección. Cada sobre contiene cartas de distinta rareza listas para
                     tus mazos!
                 </span>
+                {error && <p className="text-red-400 text-sm text-center mt-6">{error}</p>}
             </div>
 
             <div className="flex flex-col lg:flex-row items-center justify-center gap-15 my-15 lg:my-20">

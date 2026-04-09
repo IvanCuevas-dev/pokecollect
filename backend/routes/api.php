@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PokemonController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CoinsController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ShopController;
 
@@ -17,4 +18,5 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('/buy', [ShopController::class, 'buy']);
     Route::get('/pokemon', [PokemonController::class, 'index']);
+    Route::post('/buyCoins', [CoinsController::class, 'buyCoins']);
 });

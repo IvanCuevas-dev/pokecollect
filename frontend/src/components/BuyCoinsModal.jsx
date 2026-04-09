@@ -1,5 +1,6 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import api from '../api'
 
 let packages = [
     {
@@ -50,10 +51,16 @@ let packages = [
 
 function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
     let { user, setUser } = useContext(AuthContext)
+    let [error, setError] = useState('')
 
-    function handleBuy(pkg) {
-        setUser({ ...user, coins: user.coins + pkg.amount })
-        setBuyCoinsOpen(false)
+    async function handleBuy(pkg) {
+        try {
+            let data = await api('/buyCoins', 'POST', { amount: pkg.amount })
+            setUser({ ...user, coins: data.coins })
+            setBuyCoinsOpen(false)
+        } catch (error) {
+            setError('Error al comprar PokéCoins, inténtalo de nuevo')
+        }
     }
 
     return (
@@ -85,6 +92,7 @@ function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
                                     Elige un paquete para continuar
                                 </p>
                             </div>
+                            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
                         </div>
 
                         {/* Paquetes */}
