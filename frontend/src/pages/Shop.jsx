@@ -85,33 +85,39 @@ function Shop() {
             </div>
 
             <div className="flex flex-col lg:flex-row items-center justify-center gap-15 my-15 lg:my-20">
-                <PackCard
-                    type="basic"
-                    name="Básico"
-                    description="Ideal para empezar"
-                    price={50}
-                    cards={5}
-                    color="blue"
-                    onBuy={buyPack}
-                />
-                <PackCard
-                    type="standard"
-                    name="Estándar"
-                    description="Más cartas, más posibilidades."
-                    price={100}
-                    cards={10}
-                    color="purple"
-                    onBuy={buyPack}
-                />
-                <PackCard
-                    type="premium"
-                    name="Premium"
-                    description="¡La mejor forma de completar tu Pokédex!"
-                    price={200}
-                    cards={20}
-                    color="yellow"
-                    onBuy={buyPack}
-                />
+                <div className="pack-float">
+                    <PackCard
+                        type="basic"
+                        name="Básico"
+                        description="Ideal para empezar"
+                        price={50}
+                        cards={5}
+                        color="blue"
+                        onBuy={buyPack}
+                    />
+                </div>
+                <div className="pack-float-delay-1">
+                    <PackCard
+                        type="standard"
+                        name="Estándar"
+                        description="Más cartas, más posibilidades."
+                        price={100}
+                        cards={10}
+                        color="purple"
+                        onBuy={buyPack}
+                    />
+                </div>
+                <div className="pack-float-delay-2">
+                    <PackCard
+                        type="premium"
+                        name="Premium"
+                        description="¡La mejor forma de completar tu Pokédex!"
+                        price={200}
+                        cards={20}
+                        color="yellow"
+                        onBuy={buyPack}
+                    />
+                </div>
             </div>
         </>
     )

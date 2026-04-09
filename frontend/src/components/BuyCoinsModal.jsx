@@ -12,6 +12,8 @@ let packages = [
         text: 'text-green-300',
         badge: 'from-green-500 to-green-700',
         btn: 'bg-green-500/20 border-green-500/50 hover:bg-green-500/40 hover:border-green-300/80 hover:shadow-green-400/30',
+        glow: 'hover:shadow-green-500/40',
+        float: 'pack-float',
         sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
     },
     {
@@ -23,6 +25,8 @@ let packages = [
         text: 'text-blue-300',
         badge: 'from-blue-500 to-blue-700',
         btn: 'bg-blue-500/20 border-blue-500/50 hover:bg-blue-500/40 hover:border-blue-300/80 hover:shadow-blue-400/30',
+        glow: 'hover:shadow-blue-500/40',
+        float: 'pack-float-delay-1',
         sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png',
     },
     {
@@ -34,6 +38,8 @@ let packages = [
         text: 'text-purple-300',
         badge: 'from-purple-500 to-violet-700',
         btn: 'bg-purple-500/20 border-purple-500/50 hover:bg-purple-500/40 hover:border-purple-300/80 hover:shadow-purple-400/30',
+        glow: 'hover:shadow-purple-500/40',
+        float: 'pack-float-delay-2',
         sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/130.png',
     },
     {
@@ -45,6 +51,8 @@ let packages = [
         text: 'text-yellow-300',
         badge: 'from-yellow-400 to-amber-600',
         btn: 'bg-yellow-500/20 border-yellow-500/50 hover:bg-yellow-500/40 hover:border-yellow-300/80 hover:shadow-yellow-400/30',
+        glow: 'hover:shadow-yellow-500/40',
+        float: 'pack-float',
         sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png',
     },
 ]
@@ -100,8 +108,14 @@ function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
                             {packages.map((pkg) => (
                                 <div
                                     key={pkg.amount}
-                                    className={`relative flex flex-col items-center gap-3 lg:gap-5 rounded-xl bg-linear-to-br ${pkg.gradient} border ${pkg.border} p-4 lg:p-6 transition-all duration-300 hover:shadow-xl overflow-hidden`}
+                                    className={`${pkg.float} relative flex flex-col items-center gap-3 lg:gap-5 rounded-xl bg-linear-to-br ${pkg.gradient} border ${pkg.border} p-4 lg:p-6 transition-[border,box-shadow] duration-300 hover:shadow-2xl ${pkg.glow} overflow-hidden`}
                                 >
+                                    {/* Textura */}
+                                    <div className="card-grain" />
+
+                                    {/* Reflejo superior */}
+                                    <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/5 to-transparent pointer-events-none" />
+
                                     <img
                                         src={pkg.sprite}
                                         alt={pkg.label}
