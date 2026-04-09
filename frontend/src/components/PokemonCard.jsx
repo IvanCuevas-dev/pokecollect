@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-//prettier-ignore
+// prettier-ignore
 let typeConfig = {
     Fuego:      { gradient: 'from-orange-200 via-red-100 to-orange-300',    badge: 'bg-linear-to-r from-orange-400 to-red-500',          text: 'text-orange-900' },
     Agua:       { gradient: 'from-blue-200 via-cyan-100 to-blue-300',       badge: 'bg-linear-to-r from-blue-400 to-cyan-500',           text: 'text-blue-900' },
@@ -22,7 +22,7 @@ let typeConfig = {
     Acero:      { gradient: 'from-slate-100 via-gray-50 to-slate-200',      badge: 'bg-linear-to-r from-slate-400 to-gray-500',          text: 'text-slate-900' },
 };
 
-//prettier-ignore
+// prettier-ignore
 let rarityConfig = {
     'Común':      { shadow: 'shadow-slate-400',  borderGradient: 'from-slate-400 to-slate-600',                 gradient: 'from-slate-100 via-gray-100 to-slate-200',     text: 'text-slate-500',   shine: ''                },
     'Poco común': { shadow: 'shadow-green-500',  borderGradient: 'from-green-400 to-emerald-600',               gradient: 'from-green-100 via-emerald-50 to-green-200',   text: 'text-emerald-600', shine: 'shine-uncommon'  },
@@ -31,6 +31,7 @@ let rarityConfig = {
     'Legendaria': { shadow: 'shadow-yellow-400', borderGradient: 'from-yellow-300 via-amber-400 to-yellow-600', gradient: 'from-yellow-100 via-amber-50 to-yellow-200',   text: 'text-amber-500',   shine: 'shine-legendary' },
 }
 
+// Barras de stats
 function StatBar({ label, value, badgeClass }) {
     if (value == null) return null
     let pct = Math.min(Math.round((value / 155) * 100), 100)
@@ -39,7 +40,10 @@ function StatBar({ label, value, badgeClass }) {
         <div className="flex items-center gap-1.5">
             <span className="text-xs font-bold text-gray-500 w-7 shrink-0">{label}</span>
             <div className="flex-1 bg-black/10 rounded-full h-1.5 overflow-hidden">
-                <div className={`h-full rounded-full ${badgeClass}`} style={{ width: `${pct}%` }} />
+                <div
+                    className={`h-full rounded-full ${badgeClass}`}
+                    style={{ width: `${pct}%` }}
+                />
             </div>
             <span className="text-xs font-bold text-gray-600 w-5 text-right shrink-0">{value}</span>
         </div>
@@ -55,6 +59,7 @@ function PokemonCard({ pokemon }) {
     let [rotate, setRotate] = useState({ x: 0, y: 0 })
     let [isLeaving, setIsLeaving] = useState(false)
 
+    // Movimiento carta
     function handleMouseMove(e) {
         setIsLeaving(false)
         let rect = e.currentTarget.getBoundingClientRect()
@@ -67,6 +72,7 @@ function PokemonCard({ pokemon }) {
         setRotate({ x: rotateX, y: rotateY })
     }
 
+    //Animación al sacar el ratón de la carta
     function handleMouseLeave() {
         setIsLeaving(true)
         setRotate({ x: 0, y: 0 })
@@ -82,12 +88,13 @@ function PokemonCard({ pokemon }) {
                     transition: isLeaving ? 'transform 0.5s ease' : 'none',
                     willChange: 'transform',
                 }}
-                className={`relative bg-linear-to-br ${configRarity.borderGradient} p-1 rounded-2xl shadow-xl ${configRarity.shadow} mx-6 my-2 md:my-6 transform-gpu`}
+                className={`relative bg-linear-to-br ${configRarity.borderGradient} p-1 rounded-2xl shadow-xl ${configRarity.shadow} transform-gpu`}
             >
                 {/* Carta */}
                 <div
-                    className={`relative bg-linear-to-br ${configRarity.gradient} w-80 md:w-110 rounded-xl p-3 md:p-4 flex flex-col gap-1 md:gap-2 font-sans select-none overflow-hidden`}
+                    className={`relative bg-linear-to-br ${configRarity.gradient} w-full rounded-xl p-3 flex flex-col gap-1 font-sans select-none overflow-hidden`}
                 >
+                    {/* Textura + brillos */}
                     <div className="card-grain" />
                     <div className="card-inner-shadow" />
                     {configRarity.shine && <div className={configRarity.shine} />}
@@ -108,19 +115,19 @@ function PokemonCard({ pokemon }) {
 
                     {/* Nombre */}
                     <h2
-                        className={`text-center text-3xl md:text-5xl font-black uppercase tracking-widest ${config.text} drop-shadow-lg`}
+                        className={`text-center text-xl font-black uppercase tracking-widest ${config.text} drop-shadow-lg`}
                     >
                         {pokemon.name}
                     </h2>
 
                     {/* Imagen */}
                     <div
-                        className={`bg-linear-to-br ${config.gradient} mx-auto w-52 h-52 md:w-98 md:h-74 rounded-xl flex items-center justify-center border border-white/40 shadow-inner`}
+                        className={`bg-linear-to-br ${config.gradient} mx-auto w-4/5 aspect-square rounded-xl flex items-center justify-center border border-white/40 shadow-inner`}
                     >
                         <img
                             src={pokemon.sprite_url}
                             alt={pokemon.name}
-                            className="w-48 h-48 md:w-60 md:h-60 object-contain drop-shadow-lg"
+                            className="w-4/5 h-4/5 object-contain drop-shadow-lg"
                         />
                     </div>
 
@@ -153,19 +160,31 @@ function PokemonCard({ pokemon }) {
                     </p>
 
                     {/* Stats */}
-                    <div className="bg-white/30 rounded-lg px-2 py-1 md:py-1.5 flex flex-col gap-1 md:gap-1.5">
-                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1 md:mb-2">
+                    <div className="bg-white/30 rounded-lg px-2 py-1 flex flex-col gap-1">
+                        <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1">
                             Estadísticas
                         </span>
-                        <StatBar label="ATK" value={pokemon.attack} badgeClass={config.badge} />
-                        <StatBar label="DEF" value={pokemon.defense} badgeClass={config.badge} />
-                        <StatBar label="VEL" value={pokemon.speed} badgeClass={config.badge} />
+                        <StatBar
+                            label="ATK"
+                            value={pokemon.attack}
+                            badgeClass={config.badge}
+                        />
+                        <StatBar
+                            label="DEF"
+                            value={pokemon.defense}
+                            badgeClass={config.badge}
+                        />
+                        <StatBar
+                            label="VEL"
+                            value={pokemon.speed}
+                            badgeClass={config.badge}
+                        />
                     </div>
 
                     {/* Movimientos */}
                     {(pokemon.move_1 || pokemon.move_2) && (
-                        <div className="bg-white/30 rounded-lg px-2 py-1 md:py-1.5 flex flex-col gap-1">
-                            <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1 md:mb-2">
+                        <div className="bg-white/30 rounded-lg px-2 py-1 flex flex-col gap-1">
+                            <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1">
                                 Movimientos
                             </span>
                             <div className="flex justify-center gap-4 flex-wrap">

@@ -38,7 +38,7 @@ function Collection() {
             </div>
 
             {/** Grid pokemons */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6">
                 {allPokemon.map((pokemon) => {
                     let owned = userCollection.find((u) => u.id === pokemon.id)
 

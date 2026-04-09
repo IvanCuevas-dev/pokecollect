@@ -1,4 +1,5 @@
 import { useState, useContext } from 'react'
+import { createPortal } from 'react-dom'
 import { AuthContext } from '../context/AuthContext'
 import api from '../api'
 import PackCard from '../components/PackCard'
@@ -25,18 +26,37 @@ function Shop() {
 
     return (
         <>
-            {modal && cardReceived.length > 0 && (
-                <div className="fixed inset-0 bg-black/90 z-50 flex flex-col items-center justify-center gap-4">
-                    <p className="text-white/70 text-sm tracking-widest uppercase">
-                        {cardShown + 1} / {cardReceived.length}
-                    </p>
+            {modal &&
+                cardReceived.length > 0 &&
+                createPortal(
+                    <div className="fixed inset-0 bg-black/90 z-60 flex flex-col items-center justify-center gap-4">
+                        <p className="text-white/70 text-sm tracking-widest uppercase md:mb-8">
+                            {cardShown + 1} / {cardReceived.length}
+                        </p>
 
-                    <div className="relative flex items-center justify-center w-full">
-                        <div
-                            key={cardShown}
-                            className="card-reveal"
-                        >
-                            <PokemonCard pokemon={cardReceived[cardShown]} />
+                        <div className="relative flex items-center justify-center w-full">
+                            <div
+                                key={cardShown}
+                                className="card-reveal w-80 md:w-104"
+                            >
+                                <PokemonCard pokemon={cardReceived[cardShown]} />
+                            </div>
+
+                            <button
+                                onClick={() => {
+                                    if (cardShown + 1 < cardReceived.length) {
+                                        setCardShown(cardShown + 1)
+                                    } else {
+                                        setModal(false)
+                                        setCardShown(0)
+                                        setCardReceived([])
+                                    }
+                                }}
+                                className="hidden lg:block absolute right-25 px-10 py-4 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40
+                            hover:border-cyan-300/80 hover:shadow-cyan-500/30 hover:shadow-lg text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                            >
+                                {cardShown + 1 < cardReceived.length ? 'Siguiente →' : 'Cerrar'}
+                            </button>
                         </div>
 
                         <button
@@ -49,29 +69,13 @@ function Shop() {
                                     setCardReceived([])
                                 }
                             }}
-                            className="hidden lg:block absolute right-25 px-10 py-4 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40
-                            hover:border-cyan-300/80 hover:shadow-cyan-500/30 hover:shadow-lg text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                            className="lg:hidden mt-4 px-10 py-4 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40 hover:border-cyan-300/80 hover:shadow-cyan-500/30 hover:shadow-lg text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
                         >
                             {cardShown + 1 < cardReceived.length ? 'Siguiente →' : 'Cerrar'}
                         </button>
-                    </div>
-
-                    <button
-                        onClick={() => {
-                            if (cardShown + 1 < cardReceived.length) {
-                                setCardShown(cardShown + 1)
-                            } else {
-                                setModal(false)
-                                setCardShown(0)
-                                setCardReceived([])
-                            }
-                        }}
-                        className="lg:hidden mt-4 px-10 py-4 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40 hover:border-cyan-300/80 hover:shadow-cyan-500/30 hover:shadow-lg text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
-                    >
-                        {cardShown + 1 < cardReceived.length ? 'Siguiente →' : 'Cerrar'}
-                    </button>
-                </div>
-            )}
+                    </div>,
+                    document.body,
+                )}
 
             <div className="flex flex-col mt-20">
                 <h1 className="text-center text-6xl font-semibold">

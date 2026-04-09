@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { AuthContext } from '../context/AuthContext'
 import api from '../api'
 
@@ -80,18 +81,19 @@ function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
         }
     }
 
-    return (
-        <>
-            {buyCoinsOpen && (
-                <div
-                    className="fixed inset-0 bg-black/90 z-40"
-                    onClick={close}
-                />
-            )}
+    if (!buyCoinsOpen) return null
 
-            {buyCoinsOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-                    <div className={`${closing ? 'page-leave' : 'page-enter'} buyCoinsModal pointer-events-auto w-full max-w-5xl lg:max-w-6xl border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 lg:p-10 flex flex-col gap-6 lg:gap-8`}>
+    return createPortal(
+        <>
+            <div
+                className="fixed inset-0 bg-black/90 z-60"
+                onClick={close}
+            />
+
+            <div className="fixed inset-0 z-70 flex items-center justify-center p-4 pointer-events-none">
+                    <div
+                        className={`${closing ? 'page-leave' : 'page-enter'} buyCoinsModal pointer-events-auto w-full max-w-5xl lg:max-w-6xl border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 lg:p-10 flex flex-col gap-6 lg:gap-8 overflow-hidden`}
+                    >
                         {/* Cabecera */}
                         <div className="flex items-center justify-center">
                             <div>
@@ -163,8 +165,8 @@ function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
                         </div>
                     </div>
                 </div>
-            )}
-        </>
+        </>,
+        document.body
     )
 }
 
