@@ -7,8 +7,8 @@ use App\Models\Pokemon;
 
 class PokemonController extends Controller
 {
-    //Filtrar pokemon por nombre
-    public function index(Request $request)
+    //Filtrar pokemons por nombre
+    public function allPokemon(Request $request)
     {
         $query = Pokemon::query();
 
