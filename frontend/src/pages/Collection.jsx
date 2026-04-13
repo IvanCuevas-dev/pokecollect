@@ -61,6 +61,35 @@ function Collection() {
                 </h1>
             </div>
 
+            {/** Progreso */}
+            {allPokemon.length > 0 && (
+                <div className="flex flex-col items-center mx-auto mt-8 px-8 py-5 rounded-xl bg-white/5 border border-cyan-400/30 shadow-md shadow-cyan-500 w-72 m-10">
+                    <p className="text-3xl font-bold mb-3">
+                        <span className="text-cyan-300 text-5xl">{userCollection.length}</span>
+                        <span className="text-white/30 mx-2">/</span>
+                        <span className="text-white/90">{allPokemon.length}</span>
+                    </p>
+
+                    <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+                        <div
+                            className="h-full rounded-full bg-linear-to-r from-cyan-400 to-indigo-400 transition-all duration-700"
+                            style={{
+                                width: allPokemon.length
+                                    ? `${(userCollection.length / allPokemon.length) * 100}%`
+                                    : '0%',
+                            }}
+                        />
+                    </div>
+                    <p className="text-xs text-white/60 mt-2">
+                        {allPokemon.length ? Math.round((userCollection.length / allPokemon.length) * 100) : 0}%
+                        completado
+                    </p>
+                </div>
+            )}
+
+            {/** Buscadores */}
+            <div></div>
+
             {/** Cargando */}
             {allPokemon.length === 0 && (
                 <div className="flex justify-center items-center mt-40">
@@ -69,7 +98,7 @@ function Collection() {
             )}
 
             {/** Grid pokemons */}
-            <div className="flex flex-wrap justify-center gap-10 p-6 md:p-16">
+            <div className="flex flex-wrap justify-center gap-10">
                 {allPokemon.map((pokemon, index) => {
                     let owned = userCollection.find((u) => u.id === pokemon.id)
                     let delay = `${Math.min(index * 60, 900)}ms`
