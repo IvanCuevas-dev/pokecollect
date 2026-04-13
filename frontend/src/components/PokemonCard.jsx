@@ -86,7 +86,7 @@ function PokemonCard({ pokemon, compact = false, quantity = 1 }) {
                 style={{
                     transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
                 }}
-                className={`relative bg-linear-to-br ${configRarity.borderGradient} p-1 rounded-2xl shadow-xl ${configRarity.shadow} transform-gpu will-change-transform shrink-0
+                className={`relative bg-linear-to-br ${configRarity.borderGradient} p-1 rounded-2xl shadow-lg ${configRarity.shadow} transform-gpu will-change-transform shrink-0
                     ${compact ? 'w-65 h-100' : 'w-95 h-auto'}
                     ${isLeaving ? 'transition-transform duration-500 ease-in-out' : ''}`}
             >
