@@ -50,7 +50,7 @@ function StatBar({ label, value, badgeClass }) {
     )
 }
 
-function PokemonCard({ pokemon, compact = false }) {
+function PokemonCard({ pokemon, compact = false, quantity = 1 }) {
     let primaryType = pokemon.type_1
     let config = typeConfig[primaryType]
     let rarityType = pokemon.rarity
@@ -85,13 +85,10 @@ function PokemonCard({ pokemon, compact = false }) {
                 onMouseLeave={handleMouseLeave}
                 style={{
                     transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
-                    transition: isLeaving ? 'transform 0.5s ease' : 'none',
-                    willChange: 'transform',
-                    width: compact ? '260px' : '380px',
-                    height: compact ? '400px' : 'auto',
-                    flexShrink: 0,
                 }}
-                className={`relative bg-linear-to-br ${configRarity.borderGradient} p-1 rounded-2xl shadow-xl ${configRarity.shadow} transform-gpu`}
+                className={`relative bg-linear-to-br ${configRarity.borderGradient} p-1 rounded-2xl shadow-xl ${configRarity.shadow} transform-gpu will-change-transform shrink-0
+                    ${compact ? 'w-65 h-100' : 'w-95 h-auto'}
+                    ${isLeaving ? 'transition-transform duration-500 ease-in-out' : ''}`}
             >
                 {/* Carta */}
                 <div
@@ -162,7 +159,7 @@ function PokemonCard({ pokemon, compact = false }) {
                         {pokemon.description}
                     </p>
 
-                    {/* Stats + Movimientos (solo en modo completo) */}
+                    {/* Stats */}
                     {!compact && (
                         <>
                             <div className="bg-white/30 rounded-lg px-2 py-1 flex flex-col gap-1">
@@ -186,6 +183,7 @@ function PokemonCard({ pokemon, compact = false }) {
                                 />
                             </div>
 
+                            {/* Movimientos */}
                             {(pokemon.move_1 || pokemon.move_2) && (
                                 <div className="bg-white/30 rounded-lg px-2 py-1 flex flex-col gap-1">
                                     <span className="text-xs font-black text-gray-400 uppercase tracking-widest text-center mb-1">
@@ -212,6 +210,15 @@ function PokemonCard({ pokemon, compact = false }) {
                         </>
                     )}
                 </div>
+
+                {/* Badge cantidad */}
+                {quantity > 1 && (
+                    <div
+                        className={`absolute -top-3 -right-3 bg-linear-to-br ${configRarity.borderGradient} text-white text-xs font-black w-9 h-9 rounded-full flex items-center justify-center shadow-lg z-20 border-2 border-white/20`}
+                    >
+                        x{quantity}
+                    </div>
+                )}
             </div>
         </>
     )

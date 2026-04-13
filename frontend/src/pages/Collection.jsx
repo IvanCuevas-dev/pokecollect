@@ -82,10 +82,10 @@ function Collection() {
                                 style={{ animationDelay: delay }}
                                 onClick={() => setSelectedPokemon(pokemon)}
                             >
-                                {owned.quantity > 1 && <span>x{owned.quantity}</span>}
                                 <PokemonCard
                                     pokemon={pokemon}
                                     compact
+                                    quantity={owned.quantity}
                                 />
                             </div>
                         )

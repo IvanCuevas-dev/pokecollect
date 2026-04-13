@@ -10,7 +10,7 @@
     }
 }
 .page-enter {
-    animation: page-enter 0.3s ease-out forwards;
+    animation: page-enter 0.3s ease-out both;
 }
 
 @keyframes page-leave {
