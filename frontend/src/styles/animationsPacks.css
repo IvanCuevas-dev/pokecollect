@@ -20,7 +20,7 @@
     animation-delay: 1s;
 }
 
-/* Brillo animado sobres (PackCard) */
+/* Brillo animado sobres */
 @keyframes pack-shine {
     0% {
         transform: translateX(-150%);

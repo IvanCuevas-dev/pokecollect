@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import api from '../api'
 import PokemonCard from '../components/PokemonCard'
 
@@ -30,6 +31,29 @@ function Collection() {
 
     return (
         <>
+            {/** Modal carta completa */}
+            {selectedPokemon &&
+                createPortal(
+                    <div
+                        className="fixed inset-0 bg-black/90 z-60 flex items-center justify-center"
+                        onClick={() => setSelectedPokemon(null)}
+                    >
+                        <button
+                            className="absolute top-4 right-4 text-white/60 hover:text-white text-2xl font-bold cursor-pointer transition"
+                            onClick={() => setSelectedPokemon(null)}
+                        >
+                            ✕
+                        </button>
+                        <div
+                            className="card-reveal scale-[0.78] md:scale-100"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <PokemonCard pokemon={selectedPokemon} />
+                        </div>
+                    </div>,
+                    document.body,
+                )}
+
             {/** Título página */}
             <div className="flex flex-col mt-20">
                 <h1 className="text-center text-6xl font-semibold">
@@ -37,28 +61,47 @@ function Collection() {
                 </h1>
             </div>
 
+            {/** Cargando */}
+            {allPokemon.length === 0 && (
+                <div className="flex justify-center items-center mt-40">
+                    <p className="text-white/80 text-lg tracking-widest animate-pulse">Cargando colección...</p>
+                </div>
+            )}
+
             {/** Grid pokemons */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6">
-                {allPokemon.map((pokemon) => {
+            <div className="flex flex-wrap justify-center gap-10 p-6 md:p-16">
+                {allPokemon.map((pokemon, index) => {
                     let owned = userCollection.find((u) => u.id === pokemon.id)
+                    let delay = `${Math.min(index * 60, 900)}ms`
 
                     if (owned) {
                         return (
                             <div
                                 key={pokemon.id}
-                                className="relative"
+                                className="relative page-enter cursor-pointer"
+                                style={{ animationDelay: delay }}
+                                onClick={() => setSelectedPokemon(pokemon)}
                             >
                                 {owned.quantity > 1 && <span>x{owned.quantity}</span>}
-                                <PokemonCard pokemon={pokemon} />
+                                <PokemonCard
+                                    pokemon={pokemon}
+                                    compact
+                                />
                             </div>
                         )
                     } else {
                         return (
                             <div
                                 key={pokemon.id}
-                                className="grayscale opacity-30 pointer-events-none"
+                                className="page-enter"
+                                style={{ animationDelay: delay }}
                             >
-                                <PokemonCard pokemon={pokemon} />
+                                <div className="grayscale opacity-30 pointer-events-none">
+                                    <PokemonCard
+                                        pokemon={pokemon}
+                                        compact
+                                    />
+                                </div>
                             </div>
                         )
                     }

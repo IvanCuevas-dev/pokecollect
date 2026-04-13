@@ -37,7 +37,7 @@ function Shop() {
                         <div className="relative flex items-center justify-center w-full">
                             <div
                                 key={cardShown}
-                                className="card-reveal w-80 md:w-104"
+                                className="card-reveal scale-[0.78] md:scale-100"
                             >
                                 <PokemonCard pokemon={cardReceived[cardShown]} />
                             </div>
