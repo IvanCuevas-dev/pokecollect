@@ -11,10 +11,10 @@ Aplicación web fullstack de colección de cartas Pokémon basada en los 151 Pok
 
 ## ✨ Funcionalidades
 
-- **Autenticación** — Registro e inicio de sesión con tokens mediante Laravel Sanctum. Al registrarse el usuario recibe 500 PokéCoins de inicio.
-- **Tienda de Sobres** — 3 tipos de sobres (Básico, Estándar, Premium) con animaciones 3D al pasar el ratón.
+- **Autenticación** — Registro e inicio de sesión con tokens mediante Laravel Sanctum.
+- **Tienda de Sobres** — 3 tipos de sobres (Básico, Estándar, Premium).
 - **Apertura de Sobres** — Las cartas se revelan una a una con animaciones CSS.
-- **Colección (Pokédex)** — Vista de los 151 Pokémon con filtros, búsqueda y contador de copias.
+- **Colección (Pokédex)** — Vista de los 151 Pokémon con varios filtros de búsqueda.
 - **Mazo de Batalla** — 6 slots donde el usuario puede armar su mazo con drag & drop.
 - **Sección Social** — Mazos de otros usuarios con sistema de likes y dislikes.
 - **PokéCoins** — Sistema de moneda virtual con recarga simulada.
