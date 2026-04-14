@@ -72,7 +72,7 @@ function PackCard({ type, name, description, price, cards, color, onBuy }) {
                 transition: isLeaving ? 'transform 0.5s ease' : 'none',
                 willChange: 'transform',
             }}
-            className={`relative w-72 h-96 rounded-2xl bg-linear-to-br ${style.gradient} border ${style.border} ${style.hoverBorder} shadow-xl ${style.glow} hover:shadow-2xl transition-[border,box-shadow] duration-300 overflow-hidden transform-gpu`}
+            className={`relative w-72 h-96 rounded-2xl bg-linear-to-br ${style.gradient} border ${style.border} ${style.hoverBorder} shadow-xl shadow-black ${style.glow} hover:shadow-2xl transition-[border,box-shadow] duration-300 overflow-hidden transform-gpu`}
         >
             {/* Brillo animado */}
             <div className={`${style.shine}`} />
@@ -86,7 +86,10 @@ function PackCard({ type, name, description, price, cards, color, onBuy }) {
             {/* Contenido */}
             <div className="relative z-10 flex flex-col justify-between h-full p-6 text-white text-center">
                 <div className="flex flex-col items-center gap-3">
-                    <img src={style.sprite} className="w-24 h-24 object-contain drop-shadow-lg" />
+                    <img
+                        src={style.sprite}
+                        className="w-24 h-24 object-contain drop-shadow-lg"
+                    />
 
                     <h2 className={`font-black text-2xl tracking-widest uppercase ${style.text} drop-shadow-lg`}>
                         {name}

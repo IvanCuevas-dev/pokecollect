@@ -91,82 +91,80 @@ function BuyCoinsModal({ buyCoinsOpen, setBuyCoinsOpen }) {
             />
 
             <div className="fixed inset-0 z-70 flex items-center justify-center p-4 pointer-events-none">
-                    <div
-                        className={`${closing ? 'page-leave' : 'page-enter'} buyCoinsModal pointer-events-auto w-full max-w-5xl lg:max-w-6xl border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 lg:p-10 flex flex-col gap-6 lg:gap-8 overflow-hidden`}
-                    >
-                        {/* Cabecera */}
-                        <div className="flex items-center justify-center">
-                            <div>
-                                <h2
-                                    className="text-4xl font-black tracking-widest uppercase text-center"
-                                    style={{
-                                        background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #f472b6)',
-                                        WebkitBackgroundClip: 'text',
-                                        WebkitTextFillColor: 'transparent',
-                                    }}
-                                >
-                                    Recargar PokéCoins
-                                </h2>
-                                <p className="text-white/60 text-xs tracking-widest mt-1 text-center">
-                                    Elige un paquete para continuar
-                                </p>
-                            </div>
-                            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-                        </div>
-
-                        {/* Paquetes */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                            {packages.map((pkg) => (
-                                <div
-                                    key={pkg.amount}
-                                    className={`${pkg.float} relative flex flex-col items-center gap-3 lg:gap-5 rounded-xl bg-linear-to-br ${pkg.gradient} border ${pkg.border} p-4 lg:p-6 transition-[border,box-shadow] duration-300 hover:shadow-2xl ${pkg.glow} overflow-hidden`}
-                                >
-                                    {/* Textura */}
-                                    <div className="card-grain" />
-
-                                    {/* Reflejo superior */}
-                                    <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/5 to-transparent pointer-events-none" />
-
-                                    <img
-                                        src={pkg.sprite}
-                                        alt={pkg.label}
-                                        className="w-16 h-16 lg:w-32 lg:h-32 object-contain drop-shadow-lg relative z-10"
-                                    />
-
-                                    <div className="flex flex-col items-center gap-1 relative z-10">
-                                        <span
-                                            className={`bg-linear-to-r ${pkg.badge} text-white text-xs font-black px-3 py-0.5 rounded-full tracking-widest`}
-                                        >
-                                            {pkg.amount} coins
-                                        </span>
-                                        <span className={`text-xs font-bold tracking-widest ${pkg.text}`}>
-                                            {pkg.price}
-                                        </span>
-                                    </div>
-
-                                    <button
-                                        onClick={() => handleBuy(pkg)}
-                                        className={`w-full py-2 rounded-lg border ${pkg.btn} hover:shadow-lg text-xs font-bold uppercase tracking-widest transition duration-300 cursor-pointer backdrop-blur-sm relative z-10`}
-                                    >
-                                        Comprar
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-
-                        {/* Cerrar */}
-                        <div className="flex justify-center">
-                            <button
-                                onClick={close}
-                                className="px-6 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white hover:text-white text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                <div
+                    className={`${closing ? 'page-leave' : 'page-enter'} buyCoinsModal pointer-events-auto w-full max-w-5xl lg:max-w-6xl border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 lg:p-10 flex flex-col gap-6 lg:gap-8 overflow-hidden`}
+                >
+                    {/* Cabecera */}
+                    <div className="flex items-center justify-center">
+                        <div>
+                            <h2
+                                className="text-4xl font-black tracking-widest uppercase text-center"
+                                style={{
+                                    background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #f472b6)',
+                                    WebkitBackgroundClip: 'text',
+                                    WebkitTextFillColor: 'transparent',
+                                }}
                             >
-                                Cerrar
-                            </button>
+                                Recargar PokéCoins
+                            </h2>
+                            <p className="text-white/60 text-xs tracking-widest mt-1 text-center">
+                                Elige un paquete para continuar
+                            </p>
                         </div>
+                        {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+                    </div>
+
+                    {/* Paquetes */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                        {packages.map((pkg) => (
+                            <div
+                                key={pkg.amount}
+                                className={`${pkg.float} shadow-xl shadow-black relative flex flex-col items-center gap-3 lg:gap-5 rounded-xl bg-linear-to-br ${pkg.gradient} border ${pkg.border} p-4 lg:p-6 transition-[border,box-shadow] duration-300 hover:shadow-2xl ${pkg.glow} overflow-hidden`}
+                            >
+                                {/* Textura */}
+                                <div className="card-grain" />
+
+                                {/* Reflejo superior */}
+                                <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/5 to-transparent pointer-events-none" />
+
+                                <img
+                                    src={pkg.sprite}
+                                    alt={pkg.label}
+                                    className="w-16 h-16 lg:w-32 lg:h-32 object-contain drop-shadow-lg relative z-10"
+                                />
+
+                                <div className="flex flex-col items-center gap-1 relative z-10">
+                                    <span
+                                        className={`bg-linear-to-r ${pkg.badge} text-white text-xs font-black px-3 py-0.5 rounded-full tracking-widest`}
+                                    >
+                                        {pkg.amount} PokéCoins
+                                    </span>
+                                    <span className={`text-xs font-bold tracking-widest ${pkg.text}`}>{pkg.price}</span>
+                                </div>
+
+                                <button
+                                    onClick={() => handleBuy(pkg)}
+                                    className={`w-full py-2 rounded-lg border ${pkg.btn} hover:shadow-lg text-xs font-bold uppercase tracking-widest transition duration-300 cursor-pointer backdrop-blur-sm relative z-10`}
+                                >
+                                    Comprar
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Cerrar */}
+                    <div className="flex justify-center">
+                        <button
+                            onClick={close}
+                            className="px-6 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white hover:text-white text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                        >
+                            Cerrar
+                        </button>
                     </div>
                 </div>
+            </div>
         </>,
-        document.body
+        document.body,
     )
 }
 

@@ -94,6 +94,7 @@ function Collection() {
             }
         })
 
+    //Cargar colección
     async function loadCollection() {
         try {
             let pokemon = await api('/pokemon', 'GET')
@@ -106,6 +107,7 @@ function Collection() {
         }
     }
 
+    //Carga colección cada vez que el usuario entra a la página
     useEffect(() => {
         loadCollection()
     }, [])
@@ -171,7 +173,6 @@ function Collection() {
             {/** Filtros */}
             {allPokemon.length > 0 && (
                 <div className="flex flex-col gap-4 mx-5 px-8 py-5 rounded-lg bg-white/5 border border-cyan-400/30 shadow-md shadow-cyan-500">
-                    {/** Fila superior: buscadores */}
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         {/** Filtro input nombre o ID */}
                         <div className="relative">
@@ -182,8 +183,15 @@ function Collection() {
                                 strokeWidth="2"
                                 viewBox="0 0 24 24"
                             >
-                                <circle cx="11" cy="11" r="8" />
-                                <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
+                                <circle
+                                    cx="11"
+                                    cy="11"
+                                    r="8"
+                                />
+                                <path
+                                    d="M21 21l-4.35-4.35"
+                                    strokeLinecap="round"
+                                />
                             </svg>
                             <input
                                 onChange={(e) => setSearch(e.target.value)}
@@ -202,12 +210,27 @@ function Collection() {
                             value={sortBy}
                             className="rounded-md border border-cyan-400/30 bg-white/15 px-3 h-10 outline-none focus:border-cyan-400"
                         >
-                            <option className="bg-black/70" value="id">Ordenar por ID</option>
-                            <option className="bg-black/70" value="name">Ordenar por Nombre</option>
-                            <option className="bg-black/70" value="quantity">Ordenar por Cantidad</option>
+                            <option
+                                className="bg-black/70"
+                                value="id"
+                            >
+                                Ordenar por ID
+                            </option>
+                            <option
+                                className="bg-black/70"
+                                value="name"
+                            >
+                                Ordenar por Nombre
+                            </option>
+                            <option
+                                className="bg-black/70"
+                                value="quantity"
+                            >
+                                Ordenar por Cantidad
+                            </option>
                         </select>
 
-                        {/** Filtro Ascendente/Descendente + En propiedad */}
+                        {/** Filtro Ascendente/Descendente */}
                         <div className="flex gap-4">
                             <div
                                 className="flex items-center justify-center w-10 h-10 cursor-pointer rounded-md border border-cyan-400/30 bg-white/15"
@@ -220,10 +243,19 @@ function Collection() {
                                     strokeWidth="2"
                                     viewBox="0 0 24 24"
                                 >
-                                    <path d="M4 6h16M4 12h10M4 18h4" strokeLinecap="round" />
-                                    <path d="M17 15l3 3 3-3" strokeLinecap="round" strokeLinejoin="round" />
+                                    <path
+                                        d="M4 6h16M4 12h10M4 18h4"
+                                        strokeLinecap="round"
+                                    />
+                                    <path
+                                        d="M17 15l3 3 3-3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
                                 </svg>
                             </div>
+
+                            {/** Filtro en propiedad */}
                             <button
                                 onClick={() => setOnlyOwned(!onlyOwned)}
                                 className={`rounded-md cursor-pointer border px-3 h-10 transition ${
@@ -237,21 +269,23 @@ function Collection() {
                         </div>
                     </div>
 
-                    {/** Fila inferior: filtro por tipo */}
-                    <div className="flex items-center gap-2 overflow-x-auto max-h-16 py-2 px-1">
-                        {availableTypes.map((type) => (
-                            <button
-                                key={type}
-                                onClick={() => setSelectedType(type)}
-                                className={`shrink-0 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white cursor-pointer transition border-2 ${
-                                    selectedType === type
-                                        ? 'border-white/60 scale-110 shadow-lg'
-                                        : 'border-transparent opacity-60 hover:opacity-100'
-                                } ${type === 'Todos' ? 'bg-linear-to-r from-cyan-400 to-indigo-400' : typeConfig[type].badge}`}
-                            >
-                                {type}
-                            </button>
-                        ))}
+                    {/** Filtro botones tipo */}
+                    <div className="overflow-x-auto max-h-16 py-2 px-1">
+                        <div className="flex items-center justify-center gap-2 min-w-max">
+                            {availableTypes.map((type) => (
+                                <button
+                                    key={type}
+                                    onClick={() => setSelectedType(type)}
+                                    className={`shrink-0 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest text-white cursor-pointer transition border-2 ${
+                                        selectedType === type
+                                            ? 'border-white/60 scale-110 shadow-lg'
+                                            : 'border-none opacity-70 hover:opacity-100'
+                                    } ${type === 'Todos' ? 'bg-linear-to-r from-cyan-500 to-red-400' : typeConfig[type].badge}`}
+                                >
+                                    {type}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}
