@@ -8,6 +8,7 @@ class Deck extends Model
 {
     protected $fillable = [
         'user_id',
-        'name'
+        'name',
+        'shared'
     ];
 }

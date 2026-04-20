@@ -1,12 +1,13 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PokemonController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CoinsController;
 use App\Http\Controllers\CollectionController;
-use Illuminate\Http\Request;
 use App\Http\Controllers\ShopController;
+use App\Http\Controllers\DeckController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -21,4 +22,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/buyCoins', [CoinsController::class, 'buyCoins']);
     Route::get('/pokemon', [PokemonController::class, 'allPokemon']);
     Route::get('/collection', [CollectionController::class, 'userCollection']);
+    Route::get('/deck', [DeckController::class, 'getDeck']);
+    Route::post('/deck', [DeckController::class, 'saveDeck']);
 });

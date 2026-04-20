@@ -17,6 +17,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
             $table->string('name');
+            $table->boolean('shared')->default(false);
             $table->timestamps();
         });
     }
