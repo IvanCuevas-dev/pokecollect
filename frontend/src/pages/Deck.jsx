@@ -8,6 +8,7 @@ function Deck() {
     let [userCollection, setUserCollection] = useState([])
     let [search, setSearch] = useState('')
     let [selectedPokemon, setSelectedPokemon] = useState(null)
+    let [isReady, setIsReady] = useState(false)
     let dragItem = useRef(null)
     let isLoaded = useRef(false)
 
@@ -37,8 +38,7 @@ function Deck() {
 
     //Carga colección y mazo cada vez que el usuario entra a la página
     useEffect(() => {
-        loadCollection()
-        loadDeck()
+        Promise.all([loadCollection(), loadDeck()]).then(() => setIsReady(true))
     }, [])
 
     //Calcular las cartas disponibles (coleccion - mazo) con filtro de búsqueda
@@ -153,25 +153,32 @@ function Deck() {
             </div>
 
             {/** Cargando */}
-            {userCollection.length === 0 && (
+            {!isReady && (
                 <div className="flex justify-center items-center mt-40">
                     <p className="text-white text-lg tracking-widest animate-pulse">Cargando mazos...</p>
                 </div>
             )}
 
+            {/** Sin cartas */}
+            {isReady && userCollection.length === 0 && (
+                <div className="flex justify-center items-center mt-40">
+                    <p className="text-white text-lg tracking-widest">No tienes cartas en tu colección</p>
+                </div>
+            )}
+
             {/** Layout principal */}
-            {userCollection.length > 0 && (
-                <div className="flex flex-col md:flex-row gap-10 px-10 pb-6 mb-8">
+            {isReady && userCollection.length > 0 && (
+                <div className="flex flex-col md:flex-row md:items-stretch gap-10 px-10 pb-6 mb-8">
                     {/** Slots */}
                     <div className="w-full md:w-2/5 md:order-2">
                         <h2 className="text-center text-4xl font-semibold italic text-cyan-300 mb-4">Mi mazo</h2>
                         <div className="h-10 mb-4" />
-                        <div className="h-[85vh] md:overflow-y-auto md:pr-2 bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 flex items-center justify-center">
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full">
+                        <div className="bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6">
+                            <div className="flex flex-wrap justify-center gap-8">
                                 {deckSlots.map((slot, index) => (
                                     <div
                                         key={index}
-                                        className="aspect-2/3 flex items-center justify-center rounded-xl border-2 border-dashed border-white/20"
+                                        className={`flex items-center justify-center rounded-xl border-2 border-dashed border-white/20 shrink-0 ${!slot ? 'w-65 h-100' : ''}`}
                                         onDragOver={handleDragOver}
                                         onDrop={() => handleDrop(index)}
                                         draggable={!!slot}
@@ -192,7 +199,7 @@ function Deck() {
                     </div>
 
                     {/** Inventario */}
-                    <div className="w-full md:w-3/5 md:order-1">
+                    <div className="w-full md:w-3/5 md:order-1 flex flex-col">
                         <h2 className="text-center text-4xl font-semibold italic text-cyan-300 mb-4">Inventario</h2>
 
                         {/** Buscador */}
@@ -227,7 +234,7 @@ function Deck() {
 
                         {/** Cartas */}
                         <div
-                            className="md:h-[85vh] md:overflow-y-auto md:pr-2 bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6"
+                            className="bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 h-330 overflow-y-auto"
                             onDragOver={handleDragOver}
                             onDrop={handleDropToInventory}
                         >

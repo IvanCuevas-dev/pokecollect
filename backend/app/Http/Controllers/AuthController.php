@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Deck;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ class AuthController extends Controller
         ]);
 
         $user->refresh();
+        Deck::create(['user_id' => $user->id, 'shared' => false]);
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
