@@ -9,6 +9,8 @@ function Deck() {
     let [search, setSearch] = useState('')
     let [selectedPokemon, setSelectedPokemon] = useState(null)
     let [isReady, setIsReady] = useState(false)
+    let [shareModalOpen, setShareModalOpen] = useState(false)
+    let [deckName, setDeckName] = useState('')
     let dragItem = useRef(null)
     let isLoaded = useRef(false)
 
@@ -110,6 +112,31 @@ function Deck() {
         dragItem.current = null
     }
 
+    //Limpiar mazo
+    function handleClearDeck() {
+        setDeckSlots([null, null, null, null, null, null])
+    }
+
+    //Quitar carta del mazo
+    function handleRemoveSlot(index) {
+        let newDeckSlots = [...deckSlots]
+        newDeckSlots[index] = null
+        setDeckSlots(newDeckSlots)
+    }
+
+    //Compartir mazo
+    async function handleShare() {
+        try {
+            await api('/deck/share', 'POST', { name: deckName })
+            setShareModalOpen(false)
+            setDeckName('')
+            isLoaded.current = false
+            await loadDeck()
+        } catch (error) {
+            console.log('Error al compartir el mazo')
+        }
+    }
+
     //Soltar una carta del mazo de vuelta al inventario
     function handleDropToInventory() {
         if (!dragItem.current || dragItem.current.from !== 'slot') return
@@ -166,13 +193,89 @@ function Deck() {
                 </div>
             )}
 
+            {/** Modal compartir mazo */}
+            {shareModalOpen &&
+                createPortal(
+                    <>
+                        <div
+                            className="fixed inset-0 bg-black/90 z-60"
+                            onClick={() => setShareModalOpen(false)}
+                        />
+                        <div className="fixed inset-0 z-70 flex items-center justify-center p-4 pointer-events-none">
+                            <div
+                                className="page-enter buyCoinsModal pointer-events-auto w-full max-w-md border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-8 flex flex-col gap-6"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <h2
+                                    className="text-2xl font-bold text-center tracking-widest uppercase"
+                                    style={{
+                                        background: 'linear-gradient(90deg, #a78bfa, #60a5fa, #f472b6)',
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent',
+                                    }}
+                                >
+                                    Nombra tu mazo
+                                </h2>
+                                <input
+                                    autoFocus
+                                    type="text"
+                                    value={deckName}
+                                    onChange={(e) => setDeckName(e.target.value)}
+                                    onKeyDown={(e) => e.key === 'Enter' && deckName.trim() && handleShare()}
+                                    placeholder="Nombre del mazo..."
+                                    className="rounded-md border border-cyan-400/30 bg-white/15 px-4 h-11 outline-none focus:border-cyan-400 text-white"
+                                />
+                                <div className="flex gap-4">
+                                    <button
+                                        onClick={() => setShareModalOpen(false)}
+                                        className="flex-1 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        onClick={handleShare}
+                                        disabled={!deckName.trim()}
+                                        className="flex-1 py-2 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40 disabled:opacity-30 disabled:cursor-not-allowed text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                                    >
+                                        Compartir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </>,
+                    document.body,
+                )}
+
             {/** Layout principal */}
             {isReady && userCollection.length > 0 && (
                 <div className="flex flex-col md:flex-row md:items-stretch gap-10 px-10 pb-6 mb-8">
-                    {/** Slots */}
+                    {/** Columna mazo */}
                     <div className="w-full md:w-2/5 md:order-2">
-                        <h2 className="text-center text-4xl font-semibold italic text-cyan-300 mb-4">Mi mazo</h2>
-                        <div className="h-10 mb-4" />
+                        <h2 className="text-center text-4xl font-semibold italic mb-4 bg-linear-to-r from-violet-400 via-blue-400 to-pink-400 bg-clip-text text-transparent">
+                            Mi mazo
+                        </h2>
+
+                        {/** Botones compartir / limpiar */}
+                        <div className="h-10 mb-4 flex items-center justify-center gap-3">
+                            {deckSlots.every((s) => s !== null) && (
+                                <button
+                                    onClick={() => setShareModalOpen(true)}
+                                    className="px-6 py-2 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40 text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                                >
+                                    Compartir mazo
+                                </button>
+                            )}
+                            {deckSlots.some((s) => s !== null) && (
+                                <button
+                                    onClick={handleClearDeck}
+                                    className="px-6 py-2 rounded-lg bg-red-500/20 border border-red-400/50 hover:bg-red-500/40 text-red-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                                >
+                                    Limpiar mazo
+                                </button>
+                            )}
+                        </div>
+
+                        {/** Grid de slots */}
                         <div className="bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6">
                             <div className="flex flex-wrap justify-center gap-8">
                                 {deckSlots.map((slot, index) => (
@@ -185,10 +288,23 @@ function Deck() {
                                         onDragStart={(e) => handleDragStart(e, 'slot', slot, index)}
                                     >
                                         {slot ? (
-                                            <PokemonCard
-                                                pokemon={slot}
-                                                compact
-                                            />
+                                            <div className="relative">
+                                                {/** Badge quitar carta */}
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation()
+                                                        handleRemoveSlot(index)
+                                                    }}
+                                                    onDragStart={(e) => e.stopPropagation()}
+                                                    className="absolute -top-2 -right-2 z-30 w-7 h-7 rounded-full bg-red-500 hover:bg-red-400 text-white text-xs font-black flex items-center justify-center shadow-lg transition cursor-pointer"
+                                                >
+                                                    ✕
+                                                </button>
+                                                <PokemonCard
+                                                    pokemon={slot}
+                                                    compact
+                                                />
+                                            </div>
                                         ) : (
                                             <span className="text-white/20 text-4xl">+</span>
                                         )}
@@ -198,9 +314,11 @@ function Deck() {
                         </div>
                     </div>
 
-                    {/** Inventario */}
+                    {/** Columna inventario */}
                     <div className="w-full md:w-3/5 md:order-1 flex flex-col">
-                        <h2 className="text-center text-4xl font-semibold italic text-cyan-300 mb-4">Inventario</h2>
+                        <h2 className="text-center text-4xl font-semibold italic mb-4 bg-linear-to-r from-violet-400 via-blue-400 to-pink-400 bg-clip-text text-transparent">
+                            Inventario
+                        </h2>
 
                         {/** Buscador */}
                         <div className="flex justify-center mb-4">
