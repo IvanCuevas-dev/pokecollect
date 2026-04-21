@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import api from '../api'
 import PokemonCard from '../components/PokemonCard'
@@ -8,6 +8,8 @@ function Deck() {
     let [userCollection, setUserCollection] = useState([])
     let [search, setSearch] = useState('')
     let [selectedPokemon, setSelectedPokemon] = useState(null)
+    let dragItem = useRef(null)
+    let isLoaded = useRef(false)
 
     //Cargar colección
     async function loadCollection() {
@@ -28,6 +30,8 @@ function Deck() {
             setDeckSlots(data)
         } catch (error) {
             console.log('Error al cargar el mazo activo')
+        } finally {
+            isLoaded.current = true
         }
     }
 
@@ -40,27 +44,81 @@ function Deck() {
     //Calcular las cartas disponibles (coleccion - mazo) con filtro de búsqueda
     let availableCards = userCollection
         .map((pokemon) => {
-            let copies = deckSlots.filter((slot) => slot?.pokemon_id === pokemon.id).length
+            let copies = deckSlots.filter((slot) => (slot?.pokemon_id ?? slot?.id) === pokemon.id).length
             return { ...pokemon, availableQuantity: pokemon.quantity - copies }
         })
         .filter((pokemon) => pokemon.availableQuantity > 0)
-        .filter((pokemon) =>
-            pokemon.name.toLowerCase().includes(search.toLowerCase()) || String(pokemon.id).includes(search)
+        .filter(
+            (pokemon) =>
+                pokemon.name.toLowerCase().includes(search.toLowerCase()) || String(pokemon.id).includes(search),
         )
 
     //Actualizar mazo cada vez que hay un cambio en los slots
     useEffect(() => {
         async function saveDeck() {
             try {
-                await api('/deck', 'POST', { slots: deckSlots })
+                let slots = deckSlots.map((s, i) => (s ? { slot_number: i, pokemon_id: s.pokemon_id ?? s.id } : null))
+                await api('/deck', 'POST', { slots })
             } catch (error) {
                 console.log('Error al guardar el mazo')
             }
         }
 
-        let hasCards = deckSlots.some((slot) => slot !== null)
-        if (hasCards) saveDeck()
+        if (!isLoaded.current) return
+        saveDeck()
     }, [deckSlots])
+
+    //Drag & Drop
+    //Guarda el pokemon que se empieza a arrastrar + de donde se arrastra + el nº del slot del que viene
+    function handleDragStart(e, from, pokemon, slotIndex) {
+        dragItem.current = { from, pokemon, slotIndex }
+    }
+
+    //Se dispara en cada slot del mazo cuando una carta pasa por encima
+    function handleDragOver(e) {
+        e.preventDefault()
+    }
+
+    //Modificar los slots según casuística
+    function handleDrop(targetSlot) {
+        if (!dragItem.current) return
+
+        //1 - Se arrastra desde el inventario hacia un slot
+        if (dragItem.current.from === 'inventory') {
+            let newDeckSlots = [...deckSlots]
+            newDeckSlots[targetSlot] = dragItem.current.pokemon
+            setDeckSlots(newDeckSlots)
+        }
+
+        //2 - Se arrastra desde un slot hacia un slot vacío
+        if (dragItem.current.from === 'slot' && deckSlots[targetSlot] === null) {
+            let newDeckSlots = [...deckSlots]
+            newDeckSlots[targetSlot] = dragItem.current.pokemon
+            newDeckSlots[dragItem.current.slotIndex] = null
+            setDeckSlots(newDeckSlots)
+        }
+
+        //3 - Se arrastra desde un slot hacia un slot ocupado (swap)
+        if (dragItem.current.from === 'slot' && deckSlots[targetSlot] !== null) {
+            let originalPokemon = deckSlots[targetSlot]
+            let newDeckSlots = [...deckSlots]
+            newDeckSlots[targetSlot] = dragItem.current.pokemon
+            newDeckSlots[dragItem.current.slotIndex] = originalPokemon
+            setDeckSlots(newDeckSlots)
+        }
+
+        dragItem.current = null
+    }
+
+    //Soltar una carta del mazo de vuelta al inventario
+    function handleDropToInventory() {
+        if (!dragItem.current || dragItem.current.from !== 'slot') return
+
+        let newDeckSlots = [...deckSlots]
+        newDeckSlots[dragItem.current.slotIndex] = null
+        setDeckSlots(newDeckSlots)
+        dragItem.current = null
+    }
 
     return (
         <>
@@ -104,28 +162,32 @@ function Deck() {
             {/** Layout principal */}
             {userCollection.length > 0 && (
                 <div className="flex flex-col md:flex-row gap-10 px-10 pb-6 mb-8">
-                    {/** Mazo — arriba en móvil, derecha en desktop */}
+                    {/** Slots */}
                     <div className="w-full md:w-2/5 md:order-2">
                         <h2 className="text-center text-4xl font-semibold italic text-cyan-300 mb-4">Mi mazo</h2>
                         <div className="h-10 mb-4" />
                         <div className="h-[85vh] md:overflow-y-auto md:pr-2 bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6 flex items-center justify-center">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full">
-                            {deckSlots.map((slot, index) => (
-                                <div
-                                    key={index}
-                                    className="aspect-2/3 flex items-center justify-center rounded-xl border-2 border-dashed border-white/20"
-                                >
-                                    {slot ? (
-                                        <PokemonCard
-                                            pokemon={slot}
-                                            compact
-                                        />
-                                    ) : (
-                                        <span className="text-white/20 text-4xl">+</span>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full">
+                                {deckSlots.map((slot, index) => (
+                                    <div
+                                        key={index}
+                                        className="aspect-2/3 flex items-center justify-center rounded-xl border-2 border-dashed border-white/20"
+                                        onDragOver={handleDragOver}
+                                        onDrop={() => handleDrop(index)}
+                                        draggable={!!slot}
+                                        onDragStart={(e) => handleDragStart(e, 'slot', slot, index)}
+                                    >
+                                        {slot ? (
+                                            <PokemonCard
+                                                pokemon={slot}
+                                                compact
+                                            />
+                                        ) : (
+                                            <span className="text-white/20 text-4xl">+</span>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
@@ -143,8 +205,15 @@ function Deck() {
                                     strokeWidth="2"
                                     viewBox="0 0 24 24"
                                 >
-                                    <circle cx="11" cy="11" r="8" />
-                                    <path d="M21 21l-4.35-4.35" strokeLinecap="round" />
+                                    <circle
+                                        cx="11"
+                                        cy="11"
+                                        r="8"
+                                    />
+                                    <path
+                                        d="M21 21l-4.35-4.35"
+                                        strokeLinecap="round"
+                                    />
                                 </svg>
                                 <input
                                     onChange={(e) => setSearch(e.target.value)}
@@ -156,12 +225,19 @@ function Deck() {
                             </div>
                         </div>
 
-                        <div className="md:h-[85vh] md:md:overflow-y-auto md:pr-2 bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6">
+                        {/** Cartas */}
+                        <div
+                            className="md:h-[85vh] md:overflow-y-auto md:pr-2 bg-white/5 border border-white/10 rounded-2xl shadow-2xl shadow-purple-500/20 p-6"
+                            onDragOver={handleDragOver}
+                            onDrop={handleDropToInventory}
+                        >
                             <div className="flex flex-col items-center md:grid md:grid-cols-[repeat(auto-fill,minmax(260px,1fr))] md:place-items-center gap-8 pt-4 px-4">
                                 {availableCards.map((pokemon) => (
                                     <div
                                         key={pokemon.id}
                                         className="page-enter flex justify-center w-full cursor-pointer"
+                                        draggable
+                                        onDragStart={(e) => handleDragStart(e, 'inventory', pokemon, null)}
                                         onClick={() => setSelectedPokemon(pokemon)}
                                     >
                                         <PokemonCard
