@@ -8,6 +8,7 @@ use App\Http\Controllers\CoinsController;
 use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\DeckController;
+use App\Http\Controllers\SocialController;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -25,4 +26,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/deck', [DeckController::class, 'getDeck']);
     Route::post('/deck', [DeckController::class, 'saveDeck']);
     Route::post('/deck/share', [DeckController::class, 'shareDeck']);
+    Route::get('/social', [SocialController::class, 'getDecks']);
+    Route::post('/social/vote', [SocialController::class, 'vote']);
 });
