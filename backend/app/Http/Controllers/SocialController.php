@@ -80,8 +80,8 @@ class SocialController extends Controller
     {
         $user = Auth::user();
 
-        $deckVoted = $request->deck_id;
-        $typeVoted = $request->is_like;
+        $deckVoted = (int) $request->deck_id;
+        $typeVoted = (int) $request->is_like;
 
         //Busca el mazo votado por el usuario
         $vote = Vote::where('user_id', $user->id)

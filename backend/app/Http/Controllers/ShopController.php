@@ -21,6 +21,10 @@ class ShopController extends Controller
             'premium' => ['price' => 200, 'cards' => 20]
         ];
 
+        if (!array_key_exists($request->pack, $packs)) {
+            return response()->json(['message' => 'Tipo de sobre inválido'], 422);
+        }
+
         $packType = $packs[$request->pack];
         $price = $packType["price"];
         $numCards = $packType["cards"];

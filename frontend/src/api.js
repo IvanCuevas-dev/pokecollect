@@ -16,7 +16,7 @@ async function api(endpoint, method = 'GET', body = null) {
     let data = await response.json()
 
     if (!response.ok) {
-        throw data
+        throw { message: data?.message ?? 'Error desconocido' }
     }
 
     return data
