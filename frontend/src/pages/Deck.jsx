@@ -74,6 +74,8 @@ function Deck() {
     //Guarda el pokemon que se empieza a arrastrar + de donde se arrastra + el nº del slot del que viene
     function handleDragStart(e, from, pokemon, slotIndex) {
         dragItem.current = { from, pokemon, slotIndex }
+        let el = e.currentTarget
+        e.dataTransfer.setDragImage(el, el.offsetWidth / 2, el.offsetHeight / 2)
     }
 
     //Se dispara en cada slot del mazo cuando una carta pasa por encima
@@ -222,7 +224,7 @@ function Deck() {
                                     value={deckName}
                                     onChange={(e) => setDeckName(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && deckName.trim() && handleShare()}
-                                    placeholder="Nombre del mazo..."
+                                    placeholder="Nombre del mazo"
                                     className="rounded-md border border-cyan-400/30 bg-white/15 px-4 h-11 outline-none focus:border-cyan-400 text-white"
                                 />
                                 <div className="flex gap-4">
