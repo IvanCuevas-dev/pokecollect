@@ -88,23 +88,19 @@ class SocialController extends Controller
             ->where('deck_id', $deckVoted)
             ->first();
 
-        //Crear voto
         if (!$vote) {
+            //Crear voto
             Vote::create([
                 'user_id' => $user->id,
                 'deck_id' => $deckVoted,
                 'is_like' => $typeVoted
             ]);
-        }
-
-        //Actualizar voto
-        if ($vote && $typeVoted != $vote->is_like) {
+        } else if ($typeVoted != $vote->is_like) {
+            //Actualizar voto
             $vote->is_like = $typeVoted;
             $vote->save();
-        }
-
-        //Eliminar voto
-        if ($vote && $typeVoted == $vote->is_like) {
+        } else {
+            //Eliminar voto (mismo botón pulsado dos veces)
             $vote->delete();
         }
 
