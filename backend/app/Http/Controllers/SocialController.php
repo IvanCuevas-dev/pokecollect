@@ -110,4 +110,25 @@ class SocialController extends Controller
 
         return response()->json(['message' => 'Voto registrado correctamente']);
     }
+
+    //Elimina un mazo compartido del usuario autenticado
+    public function deleteDeck(Request $request, $id)
+    {
+        $user = Auth::user();
+
+        $deck = Deck::where('id', $id)
+            ->where('user_id', $user->id)
+            ->where('shared', true)
+            ->first();
+
+        if (!$deck) {
+            return response()->json(['message' => 'Mazo no encontrado'], 404);
+        }
+
+        $deck->shared = false;
+        $deck->name = null;
+        $deck->save();
+
+        return response()->json(['message' => 'Mazo eliminado correctamente']);
+    }
 }

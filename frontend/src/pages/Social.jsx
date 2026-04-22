@@ -6,6 +6,15 @@ function DeckCard({ deck, onVote }) {
     let initials = deck.user_name.slice(0, 1).toUpperCase()
     let [voteError, setVoteError] = useState(null)
 
+    async function handleDelete() {
+        try {
+            await api(`/social/${deck.id}`, 'DELETE')
+            onVote()
+        } catch (e) {
+            setVoteError(e?.message ?? 'Error al eliminar el mazo')
+        }
+    }
+
     async function handleVote(isLike) {
         try {
             await api('/social/vote', 'POST', { deck_id: deck.id, is_like: isLike })
@@ -83,6 +92,17 @@ function DeckCard({ deck, onVote }) {
                     </svg>
                     {deck.dislikes}
                 </button>
+                {deck.is_mine && (
+                    <button
+                        onClick={handleDelete}
+                        className="ml-auto flex items-center gap-1.5 text-sm font-bold text-white/50 hover:text-red-400 transition cursor-pointer"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M9 3h6l1 1h4v2H4V4h4L9 3zm-2 5h10l-1 13H8L7 8zm3 2v9h1v-9h-1zm3 0v9h1v-9h-1z" />
+                        </svg>
+                        Eliminar
+                    </button>
+                )}
             </div>
         </div>
     )

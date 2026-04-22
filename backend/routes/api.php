@@ -28,4 +28,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/deck/share', [DeckController::class, 'shareDeck']);
     Route::get('/social', [SocialController::class, 'getDecks']);
     Route::post('/social/vote', [SocialController::class, 'vote']);
+    Route::delete('/social/{id}', [SocialController::class, 'deleteDeck']);
 });
