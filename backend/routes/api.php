@@ -24,4 +24,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/collection', [CollectionController::class, 'userCollection']);
     Route::get('/deck', [DeckController::class, 'getDeck']);
     Route::post('/deck', [DeckController::class, 'saveDeck']);
+    Route::post('/deck/share', [DeckController::class, 'shareDeck']);
 });

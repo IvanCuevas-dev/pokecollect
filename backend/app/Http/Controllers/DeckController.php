@@ -63,4 +63,32 @@ class DeckController extends Controller
         }
         return response()->json(['message' => 'Mazo guardado correctamente']);
     }
+
+    //Valida el mazo a compartir
+    public function shareDeck(Request $request)
+    {
+        $user = Auth::user();
+        $deckName = $request->input('name');
+
+        $deck = Deck::where('user_id', $user->id)
+            ->where('shared', false)
+            ->first();
+
+        if (!$deck) {
+            return response()->json(['message' => 'No se puede compartir un mazo que no existe']);
+        }
+
+        $deckSlots = DeckSlot::where('deck_id', $deck->id)
+            ->count();
+
+        if ($deckSlots < 6) {
+            return response()->json(['message' => 'El mazo debe tener 6 cartas']);
+        }
+
+        $deck->name = $deckName;
+        $deck->shared = true;
+        $deck->save();
+
+        return response()->json(['message' => 'Mazo compartido correctamente']);
+    }
 }
