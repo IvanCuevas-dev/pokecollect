@@ -50,7 +50,7 @@ function StatBar({ label, value, badgeClass }) {
     )
 }
 
-function PokemonCard({ pokemon, compact = false, quantity = 1 }) {
+function PokemonCard({ pokemon, compact = false, mini = false, quantity = 1 }) {
     let primaryType = pokemon.type_1
     let config = typeConfig[primaryType]
     let rarityType = pokemon.rarity
@@ -58,6 +58,23 @@ function PokemonCard({ pokemon, compact = false, quantity = 1 }) {
 
     let [rotate, setRotate] = useState({ x: 0, y: 0 })
     let [isLeaving, setIsLeaving] = useState(false)
+
+    if (mini) {
+        return (
+            <div className={`relative bg-linear-to-br ${configRarity.borderGradient} p-0.5 rounded-xl aspect-square shadow-md`}>
+                <div className={`bg-linear-to-br ${config.gradient} w-full h-full rounded-[10px] flex items-center justify-center overflow-hidden`}>
+                    <img
+                        src={pokemon.sprite_url}
+                        alt={pokemon.name}
+                        className="w-4/5 h-4/5 object-contain drop-shadow-lg"
+                    />
+                </div>
+                <span className="absolute bottom-1 left-0 right-0 text-center text-white text-[9px] font-bold uppercase tracking-wide drop-shadow-md leading-tight px-1 truncate">
+                    {pokemon.name}
+                </span>
+            </div>
+        )
+    }
 
     // Movimiento carta
     function handleMouseMove(e) {
