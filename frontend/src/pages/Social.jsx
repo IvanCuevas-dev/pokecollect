@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import api from '../api'
 import PokemonCard from '../components/PokemonCard'
 
 function DeckCard({ deck, onVote }) {
     let initials = deck.user_name.slice(0, 1).toUpperCase()
     let [voteError, setVoteError] = useState(null)
+    let [confirmDelete, setConfirmDelete] = useState(false)
 
     async function handleDelete() {
         try {
@@ -94,16 +96,52 @@ function DeckCard({ deck, onVote }) {
                 </button>
                 {deck.is_mine && (
                     <button
-                        onClick={handleDelete}
-                        className="ml-auto flex items-center gap-1.5 text-sm font-bold text-white/50 hover:text-red-400 transition cursor-pointer"
+                        onClick={() => setConfirmDelete(true)}
+                        className="ml-auto text-red-400 hover:text-red-300 transition cursor-pointer"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M9 3h6l1 1h4v2H4V4h4L9 3zm-2 5h10l-1 13H8L7 8zm3 2v9h1v-9h-1zm3 0v9h1v-9h-1z" />
                         </svg>
-                        Eliminar
                     </button>
                 )}
             </div>
+
+            {confirmDelete && createPortal(
+                <>
+                    <div
+                        className="fixed inset-0 bg-black/90 z-60"
+                        onClick={() => setConfirmDelete(false)}
+                    />
+                    <div className="fixed inset-0 z-70 flex items-center justify-center p-4 pointer-events-none">
+                        <div
+                            className="page-enter buyCoinsModal pointer-events-auto w-full max-w-sm border border-white/10 rounded-2xl shadow-2xl shadow-red-500/20 p-8 flex flex-col gap-6"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <h2 className="text-xl font-black text-center tracking-widest uppercase text-red-400">
+                                Eliminar mazo
+                            </h2>
+                            <p className="text-white/60 text-sm text-center">
+                                ¿Seguro que quieres eliminar <span className="text-white font-bold">"{deck.name}"</span>? Esta acción no se puede deshacer.
+                            </p>
+                            <div className="flex gap-4">
+                                <button
+                                    onClick={() => setConfirmDelete(false)}
+                                    className="flex-1 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                                >
+                                    Cancelar
+                                </button>
+                                <button
+                                    onClick={() => { setConfirmDelete(false); handleDelete() }}
+                                    className="flex-1 py-2 rounded-lg bg-red-500/20 border border-red-400/50 hover:bg-red-500/40 text-red-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                                >
+                                    Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>,
+                document.body
+            )}
         </div>
     )
 }
