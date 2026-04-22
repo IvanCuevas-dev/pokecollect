@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import api from '../api'
 import PokemonCard from '../components/PokemonCard'
 
-function DeckCard({ deck, onVote }) {
+function DeckCard({ deck, onRefresh }) {
     let initials = deck.user_name.slice(0, 1).toUpperCase()
     let [voteError, setVoteError] = useState(null)
     let [confirmDelete, setConfirmDelete] = useState(false)
@@ -11,7 +11,7 @@ function DeckCard({ deck, onVote }) {
     async function handleDelete() {
         try {
             await api(`/social/${deck.id}`, 'DELETE')
-            onVote()
+            onRefresh()
         } catch (e) {
             setVoteError(e?.message ?? 'Error al eliminar el mazo')
         }
@@ -21,7 +21,7 @@ function DeckCard({ deck, onVote }) {
         try {
             await api('/social/vote', 'POST', { deck_id: deck.id, is_like: isLike })
             setVoteError(null)
-            onVote()
+            onRefresh()
         } catch (e) {
             setVoteError(e?.message ?? 'Error al votar')
         }
@@ -30,24 +30,26 @@ function DeckCard({ deck, onVote }) {
     return (
         <div className="page-enter flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 shadow-xl shadow-black/30 hover:border-white/20 transition duration-300">
             {/** Header */}
-            <div className="flex flex-col items-center gap-2">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-linear-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-white font-black text-sm shrink-0 shadow-md">
-                        {initials}
+            <div className="flex flex-col gap-2">
+                <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-linear-to-br from-cyan-500 to-purple-600 flex items-center justify-center text-white font-black text-sm shrink-0 shadow-md">
+                            {initials}
+                        </div>
+                        <span className="text-white font-bold text-sm capitalize">{deck.user_name}</span>
                     </div>
-                    <span className="text-white font-bold text-sm capitalize">{deck.user_name}</span>
+                    <h2
+                        className="text-base font-black uppercase tracking-widest text-right"
+                        style={{
+                            background: 'linear-gradient(90deg, #a78bfa, #60a5fa)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                        }}
+                    >
+                        {deck.name}
+                    </h2>
                 </div>
                 <div className="w-full border-t border-white/10" />
-                <h2
-                    className="text-base font-black uppercase tracking-widest text-center"
-                    style={{
-                        background: 'linear-gradient(90deg, #a78bfa, #60a5fa)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                    }}
-                >
-                    {deck.name}
-                </h2>
             </div>
 
             {/** Grid 2x3 cartas */}
@@ -99,49 +101,59 @@ function DeckCard({ deck, onVote }) {
                         onClick={() => setConfirmDelete(true)}
                         className="ml-auto text-red-400 hover:text-red-300 transition cursor-pointer"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 h-4"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                        >
                             <path d="M9 3h6l1 1h4v2H4V4h4L9 3zm-2 5h10l-1 13H8L7 8zm3 2v9h1v-9h-1zm3 0v9h1v-9h-1z" />
                         </svg>
                     </button>
                 )}
             </div>
 
-            {confirmDelete && createPortal(
-                <>
-                    <div
-                        className="fixed inset-0 bg-black/90 z-60"
-                        onClick={() => setConfirmDelete(false)}
-                    />
-                    <div className="fixed inset-0 z-70 flex items-center justify-center p-4 pointer-events-none">
+            {confirmDelete &&
+                createPortal(
+                    <>
                         <div
-                            className="page-enter buyCoinsModal pointer-events-auto w-full max-w-sm border border-white/10 rounded-2xl shadow-2xl shadow-red-500/20 p-8 flex flex-col gap-6"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <h2 className="text-xl font-black text-center tracking-widest uppercase text-red-400">
-                                Eliminar mazo
-                            </h2>
-                            <p className="text-white/60 text-sm text-center">
-                                ¿Seguro que quieres eliminar <span className="text-white font-bold">"{deck.name}"</span>? Esta acción no se puede deshacer.
-                            </p>
-                            <div className="flex gap-4">
-                                <button
-                                    onClick={() => setConfirmDelete(false)}
-                                    className="flex-1 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
-                                >
-                                    Cancelar
-                                </button>
-                                <button
-                                    onClick={() => { setConfirmDelete(false); handleDelete() }}
-                                    className="flex-1 py-2 rounded-lg bg-red-500/20 border border-red-400/50 hover:bg-red-500/40 text-red-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
-                                >
-                                    Eliminar
-                                </button>
+                            className="fixed inset-0 bg-black/90 z-60"
+                            onClick={() => setConfirmDelete(false)}
+                        />
+                        <div className="fixed inset-0 z-70 flex items-center justify-center p-4 pointer-events-none">
+                            <div
+                                className="page-enter buyCoinsModal pointer-events-auto w-full max-w-sm border border-white/10 rounded-2xl shadow-2xl shadow-red-500/20 p-8 flex flex-col gap-6"
+                                onClick={(e) => e.stopPropagation()}
+                            >
+                                <h2 className="text-xl font-black text-center tracking-widest uppercase text-red-400">
+                                    Eliminar mazo
+                                </h2>
+                                <p className="text-white/60 text-sm text-center">
+                                    ¿Seguro que quieres eliminar{' '}
+                                    <span className="text-white font-bold">"{deck.name}"</span>?
+                                </p>
+                                <div className="flex gap-4">
+                                    <button
+                                        onClick={() => setConfirmDelete(false)}
+                                        className="flex-1 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                                    >
+                                        Cancelar
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setConfirmDelete(false)
+                                            handleDelete()
+                                        }}
+                                        className="flex-1 py-2 rounded-lg bg-red-500/20 border border-red-400/50 hover:bg-red-500/40 text-red-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
+                                    >
+                                        Eliminar
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </>,
-                document.body
-            )}
+                    </>,
+                    document.body,
+                )}
         </div>
     )
 }
@@ -168,13 +180,15 @@ function Social() {
         loadDecks()
     }, [])
 
-    let visibleDecks = allDecks.filter((deck) => {
-        let matchesFilter = filter === 'all' || deck.is_mine
-        let matchesSearch =
-            (deck.name ?? '').toLowerCase().includes(search.toLowerCase()) ||
-            (deck.user_name ?? '').toLowerCase().includes(search.toLowerCase())
-        return matchesFilter && matchesSearch
-    })
+    let visibleDecks = allDecks
+        .filter((deck) => {
+            let matchesFilter = filter === 'all' || deck.is_mine
+            let matchesSearch =
+                (deck.name ?? '').toLowerCase().includes(search.toLowerCase()) ||
+                (deck.user_name ?? '').toLowerCase().includes(search.toLowerCase())
+            return matchesFilter && matchesSearch
+        })
+        .sort((a, b) => b.likes - a.likes)
 
     return (
         <div className="flex flex-col mt-20 px-6 md:px-10 pb-10">
@@ -183,6 +197,10 @@ function Social() {
                 <h1 className="text-center text-5xl md:text-6xl font-semibold">
                     Mazos de la <span className="text-cyan-300 italic">Comunidad</span>
                 </h1>
+                <span className="text-center text-white/90 mt-10 px-10 block">
+                    Descubre los mazos compartidos por otros entrenadores, vota los que más te gusten y comparte el
+                    tuyo.
+                </span>
             </div>
 
             {/** Filtros + buscador */}
@@ -231,12 +249,12 @@ function Social() {
 
             {/** Grid mazos */}
             {isReady && !error && visibleDecks.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-5">
                     {visibleDecks.map((deck) => (
                         <DeckCard
                             key={deck.id}
                             deck={deck}
-                            onVote={loadDecks}
+                            onRefresh={loadDecks}
                         />
                     ))}
                 </div>

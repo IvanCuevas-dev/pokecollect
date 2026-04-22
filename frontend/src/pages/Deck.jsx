@@ -144,6 +144,15 @@ function Deck() {
         }
     }
 
+    //Añadir carta al primer slot vacío (móvil)
+    function handleAddToSlot(pokemon) {
+        let firstEmpty = deckSlots.findIndex((s) => s === null)
+        if (firstEmpty === -1) return
+        let newDeckSlots = [...deckSlots]
+        newDeckSlots[firstEmpty] = pokemon
+        setDeckSlots(newDeckSlots)
+    }
+
     //Soltar una carta del mazo de vuelta al inventario
     function handleDropToInventory() {
         if (!dragItem.current || dragItem.current.from !== 'slot') return
@@ -372,7 +381,7 @@ function Deck() {
                                 {availableCards.map((pokemon) => (
                                     <div
                                         key={pokemon.id}
-                                        className="page-enter flex justify-center w-full cursor-pointer"
+                                        className="page-enter flex justify-center w-full cursor-pointer relative"
                                         draggable
                                         onDragStart={(e) => handleDragStart(e, 'inventory', pokemon, null)}
                                         onClick={() => setSelectedPokemon(pokemon)}
@@ -382,6 +391,14 @@ function Deck() {
                                             compact
                                             quantity={pokemon.availableQuantity}
                                         />
+                                        {deckSlots.some((s) => s === null) && (
+                                            <button
+                                                className="md:hidden absolute bottom-3 left-1/2 -translate-x-1/2 z-30 px-5 py-1.5 rounded-full bg-cyan-500/80 hover:bg-cyan-400 text-white text-xs font-black uppercase tracking-widest shadow-lg transition cursor-pointer"
+                                                onClick={(e) => { e.stopPropagation(); handleAddToSlot(pokemon) }}
+                                            >
+                                                + Añadir
+                                            </button>
+                                        )}
                                     </div>
                                 ))}
                             </div>

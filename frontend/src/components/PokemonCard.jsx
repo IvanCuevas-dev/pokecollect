@@ -69,9 +69,6 @@ function PokemonCard({ pokemon, compact = false, mini = false, quantity = 1 }) {
                         className="w-4/5 h-4/5 object-contain drop-shadow-lg"
                     />
                 </div>
-                <span className="absolute bottom-1 left-0 right-0 text-center text-white text-[9px] font-bold uppercase tracking-wide drop-shadow-md leading-tight px-1 truncate">
-                    {pokemon.name}
-                </span>
             </div>
         )
     }
