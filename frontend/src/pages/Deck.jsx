@@ -11,6 +11,7 @@ function Deck() {
     let [isReady, setIsReady] = useState(false)
     let [shareModalOpen, setShareModalOpen] = useState(false)
     let [deckName, setDeckName] = useState('')
+    let [shareMessage, setShareMessage] = useState(null)
     let dragItem = useRef(null)
     let isLoaded = useRef(false)
 
@@ -129,13 +130,17 @@ function Deck() {
     //Compartir mazo
     async function handleShare() {
         try {
-            await api('/deck/share', 'POST', { name: deckName })
-            setShareModalOpen(false)
+            let data = await api('/deck/share', 'POST', { name: deckName })
+            setShareMessage({ type: 'success', text: data.message })
             setDeckName('')
             isLoaded.current = false
             await loadDeck()
+            setTimeout(() => {
+                setShareModalOpen(false)
+                setShareMessage(null)
+            }, 2000)
         } catch (error) {
-            console.log('Error al compartir el mazo')
+            setShareMessage({ type: 'error', text: error?.message ?? 'Error al compartir el mazo' })
         }
     }
 
@@ -201,7 +206,7 @@ function Deck() {
                     <>
                         <div
                             className="fixed inset-0 bg-black/90 z-60"
-                            onClick={() => setShareModalOpen(false)}
+                            onClick={() => { setShareModalOpen(false); setShareMessage(null) }}
                         />
                         <div className="fixed inset-0 z-70 flex items-center justify-center p-4 pointer-events-none">
                             <div
@@ -227,9 +232,14 @@ function Deck() {
                                     placeholder="Nombre del mazo"
                                     className="rounded-md border border-cyan-400/30 bg-white/15 px-4 h-11 outline-none focus:border-cyan-400 text-white"
                                 />
+                                {shareMessage && (
+                                    <p className={`text-sm text-center ${shareMessage.type === 'error' ? 'text-red-400' : 'text-green-400'}`}>
+                                        {shareMessage.text}
+                                    </p>
+                                )}
                                 <div className="flex gap-4">
                                     <button
-                                        onClick={() => setShareModalOpen(false)}
+                                        onClick={() => { setShareModalOpen(false); setShareMessage(null) }}
                                         className="flex-1 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 text-white text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
                                     >
                                         Cancelar
@@ -261,7 +271,7 @@ function Deck() {
                         <div className="h-10 mb-4 flex items-center justify-center gap-3">
                             {deckSlots.every((s) => s !== null) && (
                                 <button
-                                    onClick={() => setShareModalOpen(true)}
+                                    onClick={() => { setShareModalOpen(true); setShareMessage(null) }}
                                     className="px-6 py-2 rounded-lg bg-cyan-500/20 border border-cyan-400/50 hover:bg-cyan-500/40 text-cyan-300 text-sm font-bold uppercase tracking-widest transition duration-300 cursor-pointer"
                                 >
                                     Compartir mazo

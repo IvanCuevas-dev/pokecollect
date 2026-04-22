@@ -75,14 +75,14 @@ class DeckController extends Controller
             ->first();
 
         if (!$deck) {
-            return response()->json(['message' => 'No se puede compartir un mazo que no existe']);
+            return response()->json(['message' => 'No se puede compartir un mazo que no existe'], 400);
         }
 
         $deckSlots = DeckSlot::where('deck_id', $deck->id)
             ->count();
 
         if ($deckSlots < 6) {
-            return response()->json(['message' => 'El mazo debe tener 6 cartas']);
+            return response()->json(['message' => 'El mazo debe tener 6 cartas'], 422);
         }
 
         $deck->name = $deckName;
